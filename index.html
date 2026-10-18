@@ -50,6 +50,72 @@ essays.push(['简述在高中信息技术项目学习中开展过程性评价的
 const programming=['编写 Python 函数 sum_even(nums)，返回列表中所有偶数的和。空列表返回 0。例如 sum_even([1, 2, 3, 4]) 返回 6。','def sum_even(nums):\n    total = 0\n    for x in nums:\n        if x % 2 == 0:\n            total += x\n    return total\n\n# 也可用 sum(x for x in nums if x % 2 == 0)'];
 const programming2=['编写 Python 函数 count_pass(scores)，返回列表中大于或等于 60 的成绩个数。空列表返回 0，不修改原列表。例如 [55, 60, 82, 40] 返回 2。','def count_pass(scores):\n    count = 0\n    for score in scores:\n        if score >= 60:\n            count += 1\n    return count'];
 let questions=[...choices.map((x,i)=>({id:'c'+i,type:'选择题',q:x[0],options:x[1],answer:x[2],explain:x[3]})),...fills.map((x,i)=>({id:'f'+i,type:'填空题',q:x[0],answer:x[1],explain:x[2]})),...essays.map((x,i)=>({id:'s'+i,type:'简答题',q:x[0],answer:x[1]})),{id:'p0',type:'编程题',q:programming[0],answer:programming[1]},{id:'p1',type:'编程题',q:programming2[0],answer:programming2[1]}];
-const KEY='it-teacher-practice-v1';let state;try{state=JSON.parse(localStorage.getItem(KEY))||{answers:{},wrong:{},submitted:false}}catch(e){state={answers:{},wrong:{},submitted:false}};state.answers ||= {};state.wrong ||= {};let view='practice';const app=document.querySelector('#app');function save(){localStorage.setItem(KEY,JSON.stringify(state))}function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}function norm(s){return String(s||'').trim().toLowerCase().replace(/\s+/g,'')}function grade(q){let a=state.answers[q.id];if(q.type==='选择题')return a!==undefined&&Number(a)===q.answer;if(q.type==='填空题')return q.answer.some(x=>norm(x)===norm(a));return null}function card(q,i){let a=state.answers[q.id]??'';let result='';if(state.submitted||view==='mistakes'){let g=grade(q);if(g!==null){let correct=q.type==='选择题'?String.fromCharCode(65+q.answer)+'．'+q.options[q.answer]:q.answer[0];result=`<div class="result"><b class="${g?'good':'bad'}">${g?'✓ 回答正确':'✕ 回答错误或未作答'}</b>　参考答案：${esc(correct)}<br>${esc(q.explain)}</div>`}else result=`<div class="result"><b>参考答案 / 评分要点</b><br>${esc(q.answer)}<br><button data-mark="${q.id}">${state.wrong[q.id]?'移出错题本':'加入错题本'}</button> <span class="hint">主观题请对照答案自评，程序不会自动执行。</span></div>`}if(view==='mistakes'&&grade(q)!==null)result+=`<div class="actions"><button data-remove="${q.id}">掌握了，移出错题本</button></div>`;let input=q.options?q.options.map((x,j)=>`<label class="option"><input type="radio" name="${q.id}" value="${j}" ${String(a)===String(j)?'checked':''}> <span>${String.fromCharCode(65+j)}．${esc(x)}</span></label>`).join(''):q.type==='填空题'?`<input class="answer" data-id="${q.id}" value="${esc(a)}" placeholder="填写答案" autocomplete="off">`:`<textarea data-id="${q.id}" class="${q.type==='编程题'?'code':''}" placeholder="在这里作答">${esc(a)}</textarea>`;return `<article class="question"><div class="meta">${String(i+1).padStart(2,'0')} / ${q.type} ${i<10?'· 基础':''}</div><h3>${esc(q.q)}</h3>${input}${result}</article>`}function render(){document.querySelector('#practiceTab').classList.toggle('active',view==='practice');document.querySelector('#mistakeTab').classList.toggle('active',view==='mistakes');let selected=view==='practice'?questions:questions.filter(q=>state.wrong[q.id]);let objective=questions.filter(q=>grade(q)!==null),correct=objective.filter(q=>grade(q)).length;app.innerHTML=`<div class="stats"><span class="pill">${view==='practice'?'共 45 题':'错题 '+selected.length+' 题'}</span><span class="pill">${state.submitted?'客观题 '+correct+' / 40':'作答自动保存'}</span><span class="pill">主观题自评</span></div>${selected.length?selected.map((q)=>card(q,questions.indexOf(q))).join(''):'<div class="empty">还没有错题，开始练习吧。</div>'}${view==='practice'?'<div class="actions"><button class="primary" id="submit">提交并查看答案</button><button id="reset">重新练习</button></div>':''}`;app.querySelectorAll('input[type=radio]').forEach(el=>el.onchange=()=>{state.answers[el.name]=el.value;save()});app.querySelectorAll('[data-id]').forEach(el=>el.oninput=()=>{state.answers[el.dataset.id]=el.value;save()});app.querySelectorAll('[data-mark]').forEach(el=>el.onclick=()=>{let id=el.dataset.mark;if(state.wrong[id])delete state.wrong[id];else state.wrong[id]=true;save();render()});app.querySelectorAll('[data-remove]').forEach(el=>el.onclick=()=>{delete state.wrong[el.dataset.remove];save();render()});let submit=document.querySelector('#submit');if(submit)submit.onclick=()=>{state.submitted=true;questions.forEach(q=>{if(grade(q)===false)state.wrong[q.id]=true});save();render();window.scrollTo({top:0,behavior:'smooth'})};let reset=document.querySelector('#reset');if(reset)reset.onclick=()=>{if(confirm('清空本套作答并重新开始？错题本会保留。')){state.answers={};state.submitted=false;save();render();window.scrollTo({top:0,behavior:'smooth'})}}}document.querySelector('#practiceTab').onclick=()=>{view='practice';render()};document.querySelector('#mistakeTab').onclick=()=>{view='mistakes';render()};render();
+const QUIZ_DATE = '2026-10-18'; // 每日更新时同步修改为本次题目日期
+const KEY = 'it-teacher-practice-v1';
+const LEGACY_DATE = '2026-10-18';
+const originalQuestions = questions.map(q => ({...q}));
+questions.forEach(q => { q.id = QUIZ_DATE + '|' + q.id; });
+let state;
+try { state = JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { state = {}; }
+state.answers ||= {};
+state.wrong ||= {};
+state.submittedDays ||= {};
+if (!state.migratedDatedQuestions) {
+  originalQuestions.forEach(q => {
+    const oldId = q.id, id = LEGACY_DATE + '|' + oldId;
+    if (Object.hasOwn(state.answers, oldId)) state.answers[id] = state.answers[oldId];
+    if (state.wrong[oldId]) state.wrong[id] = { ...q, id };
+  });
+  if (state.submitted) state.submittedDays[LEGACY_DATE] = true;
+  state.migratedDatedQuestions = true;
+}
+let view = 'practice';
+const app = document.querySelector('#app');
+function save() { localStorage.setItem(KEY, JSON.stringify(state)); }
+save();
+function esc(s) { return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function norm(s) { return String(s || '').trim().toLowerCase().replace(/\s+/g, ''); }
+function grade(q) {
+  const a = state.answers[q.id];
+  if (q.type === '选择题') return a !== undefined && Number(a) === q.answer;
+  if (q.type === '填空题') return q.answer.some(x => norm(x) === norm(a));
+  return null;
+}
+function archive(q) { state.wrong[q.id] = {...q}; }
+function card(q, i) {
+  const a = state.answers[q.id] ?? '';
+  let result = '';
+  if (state.submittedDays[QUIZ_DATE] || view === 'mistakes') {
+    const g = grade(q);
+    if (g !== null) {
+      const correct = q.type === '选择题' ? String.fromCharCode(65 + q.answer) + '．' + q.options[q.answer] : q.answer[0];
+      result = `<div class="result"><b class="${g ? 'good' : 'bad'}">${g ? '✓ 回答正确' : '✕ 回答错误或未作答'}</b>　参考答案：${esc(correct)}<br>${esc(q.explain)}</div>`;
+    } else {
+      result = `<div class="result"><b>参考答案 / 评分要点</b><br>${esc(q.answer)}<br><button data-mark="${esc(q.id)}">${state.wrong[q.id] ? '移出错题本' : '加入错题本'}</button> <span class="hint">主观题请对照答案自评，程序不会自动执行。</span></div>`;
+    }
+  }
+  if (view === 'mistakes' && grade(q) !== null) result += `<div class="actions"><button data-remove="${esc(q.id)}">掌握了，移出错题本</button></div>`;
+  const input = q.options ? q.options.map((x,j) => `<label class="option"><input type="radio" name="${esc(q.id)}" value="${j}" ${String(a) === String(j) ? 'checked' : ''}> <span>${String.fromCharCode(65+j)}．${esc(x)}</span></label>`).join('') : q.type === '填空题' ? `<input class="answer" data-id="${esc(q.id)}" value="${esc(a)}" placeholder="填写答案" autocomplete="off">` : `<textarea data-id="${esc(q.id)}" class="${q.type === '编程题' ? 'code' : ''}" placeholder="在这里作答">${esc(a)}</textarea>`;
+  return `<article class="question"><div class="meta">${String(i+1).padStart(2,'0')} / ${esc(q.type)} · ${esc(q.id.split('|')[0])}</div><h3>${esc(q.q)}</h3>${input}${result}</article>`;
+}
+function render() {
+  document.querySelector('#practiceTab').classList.toggle('active', view === 'practice');
+  document.querySelector('#mistakeTab').classList.toggle('active', view === 'mistakes');
+  const selected = view === 'practice' ? questions : Object.values(state.wrong).filter(q => q && typeof q === 'object' && q.id);
+  const objective = questions.filter(q => grade(q) !== null), correct = objective.filter(q => grade(q)).length;
+  app.innerHTML = `<div class="stats"><span class="pill">${view === 'practice' ? '共 ' + questions.length + ' 题' : '错题 ' + selected.length + ' 题'}</span><span class="pill">${state.submittedDays[QUIZ_DATE] ? '客观题 ' + correct + ' / ' + objective.length : '作答自动保存'}</span><span class="pill">主观题自评</span></div>${selected.length ? selected.map((q,i) => card(q,i)).join('') : '<div class="empty">还没有错题，开始练习吧。</div>'}${view === 'practice' ? '<div class="actions"><button class="primary" id="submit">提交并查看答案</button><button id="reset">重新练习</button></div>' : ''}`;
+  app.querySelectorAll('input[type=radio]').forEach(el => el.onchange = () => { state.answers[el.name] = el.value; save(); });
+  app.querySelectorAll('[data-id]').forEach(el => el.oninput = () => { state.answers[el.dataset.id] = el.value; save(); });
+  app.querySelectorAll('[data-mark]').forEach(el => el.onclick = () => { const id = el.dataset.mark; if (state.wrong[id]) delete state.wrong[id]; else { const q = questions.find(x => x.id === id); if (q) archive(q); } save(); render(); });
+  app.querySelectorAll('[data-remove]').forEach(el => el.onclick = () => { delete state.wrong[el.dataset.remove]; save(); render(); });
+  const submit = document.querySelector('#submit');
+  if (submit) submit.onclick = () => { state.submittedDays[QUIZ_DATE] = true; questions.forEach(q => { if (grade(q) === false) archive(q); }); save(); render(); window.scrollTo({top:0,behavior:'smooth'}); };
+  const reset = document.querySelector('#reset');
+  if (reset) reset.onclick = () => { if (confirm('清空本套作答并重新开始？错题本会保留。')) { questions.forEach(q => { delete state.answers[q.id]; }); delete state.submittedDays[QUIZ_DATE]; save(); render(); window.scrollTo({top:0,behavior:'smooth'}); } };
+}
+document.querySelector('#practiceTab').onclick = () => { view = 'practice'; render(); };
+document.querySelector('#mistakeTab').onclick = () => { view = 'mistakes'; render(); };
+render();
+
 </script></body></html>
 
