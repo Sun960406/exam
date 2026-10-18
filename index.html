@@ -1,6 +1,6 @@
 <!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f7f5ef"><title>信息科技教师宝典 · 每日练习</title><style>
 :root{font-family:system-ui,-apple-system,"Microsoft Yahei",sans-serif;color:#263d37;background:#f6f5ef}*{box-sizing:border-box}body{margin:0}header{background:#193e38;color:#fff;padding:30px 20px 34px}header div,main{max-width:780px;margin:auto}header small{letter-spacing:.13em;color:#b5d6bf}h1{font-size:clamp(25px,6vw,38px);margin:12px 0 8px}header p{color:#d4e4d8;line-height:1.7;margin:0}.shell{padding:0 16px 80px}.intro{background:#e5eee3;border-radius:14px;padding:18px;margin:20px 0;line-height:1.7}.tabs{display:flex;gap:8px;flex-wrap:wrap;position:sticky;top:0;background:#f6f5ef;padding:10px 0;z-index:3}button{font:inherit;border:0;border-radius:9px;padding:11px 15px;cursor:pointer;background:#e4e9e2;color:#25443b}button.primary,.tabs button.active{background:#235e4b;color:white}button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid #d49b42;outline-offset:2px}.stats{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0 20px}.pill{background:#fff;border:1px solid #e2e7dd;border-radius:30px;padding:7px 12px;font-size:13px}.question{background:#fff;border:1px solid #e4e8df;border-radius:14px;padding:20px;margin:12px 0;box-shadow:0 2px 8px #233b3010}.meta{font-size:12px;color:#668577;margin-bottom:9px}.question h3{font-size:16px;line-height:1.7;margin:0 0 13px;font-weight:650}.option{display:flex;gap:9px;align-items:flex-start;padding:9px 10px;border-radius:8px;line-height:1.5}.option:has(input:checked){background:#e8f1e8}.option input{margin-top:5px;accent-color:#277350}textarea,.answer{width:100%;border:1px solid #ccd8cc;border-radius:9px;padding:11px;font:inherit;color:#273a35;background:#fcfdfb}textarea{min-height:90px;resize:vertical}textarea.code{min-height:150px;font-family:monospace}.result{margin-top:14px;border-top:1px solid #e5eae3;padding-top:12px;line-height:1.7;font-size:14px;white-space:pre-wrap}.good{color:#247048}.bad{color:#a04a34}.hint{font-size:13px;color:#697e72;line-height:1.6}.actions{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0}.empty{padding:35px;background:white;border-radius:14px;text-align:center;color:#62776b}a{color:#256a55}footer{color:#687c70;font-size:13px;line-height:1.7;margin:35px 0}pre{white-space:pre-wrap}label{cursor:pointer}
-</style></head><body><header><div><small>INFORMATION TECHNOLOGY · STUDY</small><h1>信息科技教师宝典</h1><p>每天一点积累，向更扎实的专业能力前进。</p></div></header><main class="shell"><div class="intro"><b id="dailyTitle">每日练习</b><br>每天北京时间 9:00 切换。20 道选择、5 道填空、2 道简答、1 道程序设计或数据库实践题。客观题自动判分；主观题可连接 DeepSeek 服务批改，也可自评。<p class="hint"><span id="bankCount">正在载入题库…</span><br>其中 1,916 道单选和 958 道填空为参数变式，其余为现有练习和新增程序题；题目数量不代表独立考点数量。<br><button id="downloadBank" type="button">下载完整题库 JSON</button> <a href="sources.json" target="_blank" rel="noopener">出题依据与资料范围</a></p><div id="dailyNotice" hidden>新一天的练习已准备好，当前作答已自动保存。<button type="button" onclick="location.reload()">打开新练习</button></div></div><section class="intro" aria-label="今日概念" id="dailyConcept"></section><nav class="tabs" aria-label="练习导航"><button id="practiceTab" class="active">今日练习</button><button id="mistakeTab">错题本</button></nav><div id="app"></div><footer><b>上次聊天中的错题复习：</b>DNS 将域名解析为 IP；二分查找要求有序；Python 使用 def 定义函数；HTTPS 通常使用 TLS；算法可有一个或多个输出。项目学习可按目标、任务、过程、评价组织；循环计数先初始化，再逐项判断。<br><br>本套为原创练习题，参考高中信息技术课程标准及教师招聘常见知识范围，不标称江苏真题。<a href="https://www.moe.gov.cn/srcsite/A26/s8001/202006/t20200603_462199.html" target="_blank" rel="noopener">教育部课程标准通知</a> · 答题记录仅保存在当前浏览器，清除浏览器数据会丢失，换设备不会同步。</footer></main><script>
+</style></head><body><header><div><small>INFORMATION TECHNOLOGY · STUDY</small><h1>信息科技教师宝典</h1><p>每天一点积累，向更扎实的专业能力前进。</p></div></header><main class="shell"><div class="intro"><b id="dailyTitle">每日练习</b><br>每天北京时间 9:00 切换。20 道选择、5 道填空、2 道简答、1 道程序设计或数据库实践题。客观题自动判分；简答题和程序题对照参考答案自评。<p class="hint"><span id="bankCount">正在载入题库…</span><br>其中 1,916 道单选和 958 道填空为参数变式，其余为现有练习和新增程序题；题目数量不代表独立考点数量。<br><button id="downloadBank" type="button">下载完整题库 JSON</button> <a href="sources.json" target="_blank" rel="noopener">出题依据与资料范围</a></p><div id="dailyNotice" hidden>新一天的练习已准备好，当前作答已自动保存。<button type="button" onclick="location.reload()">打开新练习</button></div></div><section class="intro" aria-label="今日概念" id="dailyConcept"></section><nav class="tabs" aria-label="练习导航"><button id="practiceTab" class="active">今日练习</button><button id="mistakeTab">错题本</button></nav><div id="app"></div><footer><b>上次聊天中的错题复习：</b>DNS 将域名解析为 IP；二分查找要求有序；Python 使用 def 定义函数；HTTPS 通常使用 TLS；算法可有一个或多个输出。项目学习可按目标、任务、过程、评价组织；循环计数先初始化，再逐项判断。<br><br>本套为原创练习题，参考高中信息技术课程标准及教师招聘常见知识范围，不标称江苏真题。<a href="https://www.moe.gov.cn/srcsite/A26/s8001/202006/t20200603_462199.html" target="_blank" rel="noopener">教育部课程标准通知</a> · 答题记录仅保存在当前浏览器，清除浏览器数据会丢失，换设备不会同步。</footer></main><script>
 const choices=[
 ['计算机内部通常采用哪种数制表示数据？',['十进制','二进制','八进制','罗马数字'],1,'计算机硬件易于用两种稳定状态表示 0 和 1。'],
 ['一个字节（Byte）通常包含多少个二进制位？',['4','8','16','32'],1,'1 Byte = 8 bit。'],
@@ -252,97 +252,8 @@ for (const q of state.dailyReviews[QUIZ_DATE]) {
 }
 
 
-// DeepSeek API Key 仅存在服务端；网页只保存独立的批改访问口令。
-state.subjectiveGrades ||= {};
-let gradingBusy = false;
-let gradingMessage = '';
-let gradingEpoch = 0;
-let graderSettings;
-try { graderSettings=JSON.parse(sessionStorage.getItem('teacher-grader-settings') || '{}'); } catch { graderSettings={}; }
-function currentAssessment(q) {
-  const record=state.subjectiveGrades[q.id];
-  return record && record.response === String(state.answers[q.id] ?? '') ? record : null;
-}
-function gradingSettingsPanel() {
-  return '<details class="intro"><summary>自动批改设置</summary><p>批改需要你自己的服务端。此处填写服务地址和独立访问口令，DeepSeek API Key 只在服务端配置。提交简答和程序作答时，将把对应题干、参考答案与作答发送到你的服务，再转交 DeepSeek。</p><label>批改服务地址<input class="answer" id="graderUrl" placeholder="https://你的批改服务域名" value="'+esc(graderSettings.url || '')+'"></label><label>批改访问口令<input class="answer" type="password" id="graderToken" autocomplete="off" value="'+esc(graderSettings.token || '')+'"></label><button id="saveGrader">保存本次会话设置</button><button id="clearGrader">清除设置</button><p class="hint">设置仅存于本次浏览器会话。程序题由模型审阅逻辑，网页不会执行你提交的代码；你可以手动纠正判定。</p></details>';
-}
-function attachGradingSettings() {
-  const saveButton=document.querySelector('#saveGrader');
-  if(saveButton)saveButton.onclick=()=>{
-    try{
-      const url=new URL(document.querySelector('#graderUrl').value.trim());
-      const local=['localhost','127.0.0.1','[::1]'].includes(url.hostname);
-      if(url.username || url.password || (url.protocol!=='https:' && !(url.protocol==='http:' && local)))throw new Error('请填写 HTTPS 服务地址；仅本机地址允许 HTTP');
-      if(location.protocol==='https:' && url.protocol==='http:')throw new Error('当前是公网 HTTPS 页面，请使用 HTTPS 批改服务；本机版请先打开 http://127.0.0.1:8787');
-      const token=document.querySelector('#graderToken').value.trim();
-      if(token.startsWith('sk-'))throw new Error('这里需要批改访问口令，不能填写 DeepSeek API Key');
-      if(token.length<24)throw new Error('访问口令至少需要 24 个字符');
-      graderSettings={url:url.origin,token};
-      sessionStorage.setItem('teacher-grader-settings',JSON.stringify(graderSettings));
-      gradingMessage='批改设置已保存；下次提交时会自动批改主观题。';render();
-    }catch(error){alert(error.message);}
-  };
-  const clearButton=document.querySelector('#clearGrader');
-  if(clearButton)clearButton.onclick=()=>{
-    graderSettings={};sessionStorage.removeItem('teacher-grader-settings');
-    gradingMessage='批改设置已清除。';render();
-  };
-  app.querySelectorAll('[data-assess]').forEach(button=>button.onclick=()=>{
-    const id=button.dataset.assess, verdict=button.dataset.verdict;
-    const q=[...questions,...Object.values(state.wrong)].find(q=>q.id===id);
-    if(!q)return;
-    state.subjectiveGrades[id]={verdict,response:String(state.answers[id] ?? ''),feedback:'由你手动复核。',manual:true};
-    if(verdict==='incorrect')archive(q);else delete state.wrong[id];
-    save();render();
-  });
-}
-async function assessSubjectiveQuestions() {
-  if(gradingBusy)return;
-  if(!graderSettings.url || !graderSettings.token){
-    gradingMessage='客观题已批改。主观题待批改：请先配置批改服务，或对照参考答案自评。';render();return;
-  }
-  gradingBusy=true;
-  const requestEpoch=gradingEpoch;
-  try{
-    const pending=questions.filter(q=>['简答题','编程题'].includes(q.type) && (!currentAssessment(q) || currentAssessment(q).verdict==='needs_review'));
-    let completed=0;
-    for(const q of pending){
-      if(requestEpoch!==gradingEpoch)break;
-      const response=String(state.answers[q.id] ?? '');
-      gradingMessage='正在批改主观题 '+(completed+1)+' / '+pending.length+'…';render();
-      try{
-        let result;
-        if(!response.trim())result={verdict:'incorrect',feedback:'本题尚未作答。'};
-        else{
-          const reply=await fetch(graderSettings.url+'/api/grade',{
-            method:'POST',
-            headers:{'Content-Type':'application/json',Authorization:'Bearer '+graderSettings.token},
-            body:JSON.stringify({id:q.id,type:q.type,q:q.q,reference:q.answer,response}),
-            signal:AbortSignal.timeout(55000)
-          });
-          const data=await reply.json();
-          if(!reply.ok)throw new Error(data.error || '批改服务请求失败');
-          if(!['correct','incorrect','needs_review'].includes(data.verdict) || typeof data.feedback!=='string')throw new Error('批改结果格式不完整');
-          result=data;
-        }
-        // 网络请求期间修改过的答案不会被旧批改结果覆盖。
-        if(requestEpoch!==gradingEpoch || String(state.answers[q.id] ?? '')!==response)continue;
-        // 请求期间的人工复核优先。
-        if(currentAssessment(q)?.manual)continue;
-        state.subjectiveGrades[q.id]={...result,response};
-        if(result.verdict==='incorrect')archive(q);
-        save();completed++;
-      }catch(error){
-        if(requestEpoch===gradingEpoch && String(state.answers[q.id] ?? '')===response && !currentAssessment(q)?.manual){
-          state.subjectiveGrades[q.id]={verdict:'needs_review',response,feedback:'自动批改未完成：'+(error.name==='TimeoutError'?'请求超时':error.message),retryable:true};
-          save();
-        }
-      }
-    }
-    gradingMessage='本次主观题批改已结束；明确判错的题目已加入错题本，待复核题不自动归档。';
-  }finally{gradingBusy=false;render();}
-}
-
+// 清除旧版批改服务的会话设置，保留答题和错题记录。
+try { sessionStorage.removeItem('teacher-grader-settings'); } catch {}
 let view = 'practice';
 const app = document.querySelector('#app');
 function save() { localStorage.setItem(KEY, JSON.stringify(state)); }
@@ -365,10 +276,7 @@ function card(q, i) {
       const correct = q.type === '选择题' ? String.fromCharCode(65 + q.answer) + '．' + q.options[q.answer] : q.answer[0];
       result = `<div class="result"><b class="${g ? 'good' : 'bad'}">${g ? '✓ 回答正确' : '✕ 回答错误或未作答'}</b>　参考答案：${esc(correct)}<br>${esc(q.explain)}</div>`;
     } else {
-      const assessment=currentAssessment(q);
-      const verdict=assessment?.verdict;
-      const label=verdict==='correct'?'✓ 主观题正确':verdict==='incorrect'?'✕ 主观题有误':verdict==='needs_review'?'待复核':'待批改 / 可自评';
-      result = `<div class="result"><b class="${verdict==='correct'?'good':verdict==='incorrect'?'bad':''}">${label}</b><p>${esc(assessment?.feedback || '尚未取得自动批改结果。')}</p><b>参考答案 / 评分要点</b><br>${esc(q.answer)}<br><button data-assess="${esc(q.id)}" data-verdict="correct">我复核：正确</button> <button data-assess="${esc(q.id)}" data-verdict="incorrect">我复核：错误并归档</button> <button data-mark="${esc(q.id)}">${state.wrong[q.id] ? '移出错题本' : '加入错题本'}</button><p class="hint">AI 审阅可能有误；程序未在网页中执行，可手动复核。</p></div>`;
+      result = `<div class="result"><b>参考答案 / 评分要点</b><br>${esc(q.answer)}<br><button data-mark="${esc(q.id)}">${state.wrong[q.id] ? '移出错题本' : '加入错题本'}</button><p class="hint">请对照答案自评；程序不会自动执行。</p></div>`;
     }
   }
   if (view === 'mistakes' && grade(q) !== null) result += `<div class="actions"><button data-remove="${esc(q.id)}">掌握了，移出错题本</button></div>`;
@@ -380,17 +288,15 @@ function render() {
   document.querySelector('#mistakeTab').classList.toggle('active', view === 'mistakes');
   const selected = view === 'practice' ? questions : Object.values(state.wrong).filter(q => q && typeof q === 'object' && q.id);
   const objective = questions.filter(q => grade(q) !== null), correct = objective.filter(q => grade(q)).length;
-  app.innerHTML = gradingSettingsPanel() + `<p role="status">${esc(gradingMessage)}</p><div class="stats"><span class="pill">${view === 'practice' ? '共 ' + questions.length + ' 题' : '错题 ' + selected.length + ' 题'}</span><span class="pill">${state.submittedDays[QUIZ_DATE] ? '客观题 ' + correct + ' / ' + objective.length : '作答自动保存'}</span><span class="pill">主观题 AI 审阅 / 自评</span>${view === 'practice' ? '<span class="pill">本套错题复练 ' + state.dailyReviews[QUIZ_DATE].length + ' 题</span>' : ''}</div>${selected.length ? selected.map((q,i) => card(q,i)).join('') : '<div class="empty">还没有错题，开始练习吧。</div>'}${view === 'practice' ? '<div class="actions"><button class="primary" id="submit">提交并批改 / 查看答案</button><button id="reset">重新练习</button></div>' : ''}`;
+  app.innerHTML = `<div class="stats"><span class="pill">${view === 'practice' ? '共 ' + questions.length + ' 题' : '错题 ' + selected.length + ' 题'}</span><span class="pill">${state.submittedDays[QUIZ_DATE] ? '客观题 ' + correct + ' / ' + objective.length : '作答自动保存'}</span><span class="pill">主观题自评</span>${view === 'practice' ? '<span class="pill">本套错题复练 ' + state.dailyReviews[QUIZ_DATE].length + ' 题</span>' : ''}</div>${selected.length ? selected.map((q,i) => card(q,i)).join('') : '<div class="empty">还没有错题，开始练习吧。</div>'}${view === 'practice' ? '<div class="actions"><button class="primary" id="submit">提交并查看答案</button><button id="reset">重新练习</button></div>' : ''}`;
   app.querySelectorAll('input[type=radio]').forEach(el => el.onchange = () => { state.answers[el.name] = el.value; save(); });
-  app.querySelectorAll('[data-id]').forEach(el => el.oninput = () => { state.answers[el.dataset.id] = el.value; delete state.subjectiveGrades[el.dataset.id]; save(); });
-  app.querySelectorAll('[data-mark]').forEach(el => el.onclick = () => { const id = el.dataset.mark; if (state.wrong[id]) delete state.wrong[id]; else { const q = questions.find(x => x.id === id); if (q) archive(q); } save(); render(); });
+  app.querySelectorAll('[data-id]').forEach(el => el.oninput = () => { state.answers[el.dataset.id] = el.value; save(); });
+  app.querySelectorAll('[data-mark]').forEach(el => el.onclick = () => { const id = el.dataset.mark; if (state.wrong[id]) delete state.wrong[id]; else { const q = [...questions,...Object.values(state.wrong)].find(x => x.id === id); if (q) archive(q); } save(); render(); });
   app.querySelectorAll('[data-remove]').forEach(el => el.onclick = () => { delete state.wrong[el.dataset.remove]; save(); render(); });
   const submit = document.querySelector('#submit');
-  if(submit){submit.disabled=gradingBusy;submit.textContent=gradingBusy ? '正在批改…' : '提交并批改 / 查看答案';}
-  if (submit) submit.onclick = () => { if(gradingBusy)return; state.submittedDays[QUIZ_DATE] = true; questions.forEach(q => { if (grade(q) === false) archive(q); }); save(); render(); window.scrollTo({top:0,behavior:'smooth'}); assessSubjectiveQuestions(); };
+  if (submit) submit.onclick = () => { state.submittedDays[QUIZ_DATE] = true; questions.forEach(q => { if (grade(q) === false) archive(q); }); save(); render(); window.scrollTo({top:0,behavior:'smooth'}); };
   const reset = document.querySelector('#reset');
-  if (reset) reset.onclick = () => { if (confirm('清空本套作答并重新开始？错题本会保留。')) { gradingEpoch++; questions.forEach(q => { delete state.answers[q.id]; delete state.subjectiveGrades[q.id]; }); delete state.submittedDays[QUIZ_DATE]; save(); render(); window.scrollTo({top:0,behavior:'smooth'}); } };
-  attachGradingSettings();
+  if (reset) reset.onclick = () => { if (confirm('清空本套作答并重新开始？错题本会保留。')) { questions.forEach(q => { delete state.answers[q.id]; }); delete state.submittedDays[QUIZ_DATE]; save(); render(); window.scrollTo({top:0,behavior:'smooth'}); } };
 }
 
 document.querySelector('#practiceTab').onclick = () => { view = 'practice'; render(); };
