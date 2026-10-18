@@ -69,6 +69,37 @@ if (!state.migratedDatedQuestions) {
   if (state.submitted) state.submittedDays[LEGACY_DATE] = true;
   state.migratedDatedQuestions = true;
 }
+// 每日首次打开时，使用同题型的历史错题替换最多五道新题。
+// 已经开始的练习不改题，已选错题保存在本机并在当天保持不变。
+state.dailyReviews ||= {};
+state.reviewHistory ||= {};
+if (!Object.prototype.hasOwnProperty.call(state.dailyReviews, QUIZ_DATE)) {
+  const started = !!state.submittedDays[QUIZ_DATE] || questions.some(q => Object.prototype.hasOwnProperty.call(state.answers, q.id));
+  const capacity = {};
+  questions.forEach(q => { capacity[q.type] = (capacity[q.type] || 0) + 1; });
+  const available = Object.values(state.wrong).filter(q => q && typeof q === 'object' && q.id && q.id.split('|')[0] < QUIZ_DATE && capacity[q.type]);
+  available.sort((a,b) => (state.reviewHistory[a.reviewOf || a.id] || '').localeCompare(state.reviewHistory[b.reviewOf || b.id] || ''));
+  const picked = [], seen = new Set();
+  if (!started) for (const q of available) {
+    const originalId = q.reviewOf || q.id;
+    if (seen.has(originalId) || !capacity[q.type]) continue;
+    seen.add(originalId);
+    capacity[q.type]--;
+    picked.push({...q, id: QUIZ_DATE + '|review' + picked.length, reviewOf: originalId});
+    state.reviewHistory[originalId] = QUIZ_DATE;
+    if (picked.length === 5) break;
+  }
+  state.dailyReviews[QUIZ_DATE] = picked;
+}
+for (const q of state.dailyReviews[QUIZ_DATE]) {
+  let index = -1;
+  for (let i = questions.length - 1; i >= 0; i--) {
+    if (questions[i].type === q.type && !questions[i].reviewOf) { index = i; break; }
+  }
+  if (index >= 0) questions[index] = q;
+}
+
+
 let view = 'practice';
 const app = document.querySelector('#app');
 function save() { localStorage.setItem(KEY, JSON.stringify(state)); }
@@ -96,14 +127,14 @@ function card(q, i) {
   }
   if (view === 'mistakes' && grade(q) !== null) result += `<div class="actions"><button data-remove="${esc(q.id)}">掌握了，移出错题本</button></div>`;
   const input = q.options ? q.options.map((x,j) => `<label class="option"><input type="radio" name="${esc(q.id)}" value="${j}" ${String(a) === String(j) ? 'checked' : ''}> <span>${String.fromCharCode(65+j)}．${esc(x)}</span></label>`).join('') : q.type === '填空题' ? `<input class="answer" data-id="${esc(q.id)}" value="${esc(a)}" placeholder="填写答案" autocomplete="off">` : `<textarea data-id="${esc(q.id)}" class="${q.type === '编程题' ? 'code' : ''}" placeholder="在这里作答">${esc(a)}</textarea>`;
-  return `<article class="question"><div class="meta">${String(i+1).padStart(2,'0')} / ${esc(q.type)} · ${esc(q.id.split('|')[0])}</div><h3>${esc(q.q)}</h3>${input}${result}</article>`;
+  return `<article class="question"><div class="meta">${String(i+1).padStart(2,'0')} / ${esc(q.type)} · ${esc(q.id.split('|')[0])}${q.reviewOf ? ' · 错题复练' : ''}</div><h3>${esc(q.q)}</h3>${input}${result}</article>`;
 }
 function render() {
   document.querySelector('#practiceTab').classList.toggle('active', view === 'practice');
   document.querySelector('#mistakeTab').classList.toggle('active', view === 'mistakes');
   const selected = view === 'practice' ? questions : Object.values(state.wrong).filter(q => q && typeof q === 'object' && q.id);
   const objective = questions.filter(q => grade(q) !== null), correct = objective.filter(q => grade(q)).length;
-  app.innerHTML = `<div class="stats"><span class="pill">${view === 'practice' ? '共 ' + questions.length + ' 题' : '错题 ' + selected.length + ' 题'}</span><span class="pill">${state.submittedDays[QUIZ_DATE] ? '客观题 ' + correct + ' / ' + objective.length : '作答自动保存'}</span><span class="pill">主观题自评</span></div>${selected.length ? selected.map((q,i) => card(q,i)).join('') : '<div class="empty">还没有错题，开始练习吧。</div>'}${view === 'practice' ? '<div class="actions"><button class="primary" id="submit">提交并查看答案</button><button id="reset">重新练习</button></div>' : ''}`;
+  app.innerHTML = `<div class="stats"><span class="pill">${view === 'practice' ? '共 ' + questions.length + ' 题' : '错题 ' + selected.length + ' 题'}</span><span class="pill">${state.submittedDays[QUIZ_DATE] ? '客观题 ' + correct + ' / ' + objective.length : '作答自动保存'}</span><span class="pill">主观题自评</span>${view === 'practice' ? '<span class="pill">本套错题复练 ' + state.dailyReviews[QUIZ_DATE].length + ' 题</span>' : ''}</div>${selected.length ? selected.map((q,i) => card(q,i)).join('') : '<div class="empty">还没有错题，开始练习吧。</div>'}${view === 'practice' ? '<div class="actions"><button class="primary" id="submit">提交并查看答案</button><button id="reset">重新练习</button></div>' : ''}`;
   app.querySelectorAll('input[type=radio]').forEach(el => el.onchange = () => { state.answers[el.name] = el.value; save(); });
   app.querySelectorAll('[data-id]').forEach(el => el.oninput = () => { state.answers[el.dataset.id] = el.value; save(); });
   app.querySelectorAll('[data-mark]').forEach(el => el.onclick = () => { const id = el.dataset.mark; if (state.wrong[id]) delete state.wrong[id]; else { const q = questions.find(x => x.id === id); if (q) archive(q); } save(); render(); });
@@ -118,5 +149,7 @@ document.querySelector('#mistakeTab').onclick = () => { view = 'mistakes'; rende
 render();
 
 </script></body></html>
+
+
 
 
