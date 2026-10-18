@@ -4,7 +4,33 @@
 .question{scroll-margin-top:84px}.question:focus{outline:2px solid #b88a40;outline-offset:3px}.question-nav{position:fixed;right:20px;top:24px;width:230px;background:#fff;border:1px solid #dbe4d8;border-radius:16px;padding:18px;box-shadow:0 6px 28px #18382e14;max-height:calc(100dvh - 48px);overflow:auto;z-index:5}.question-nav h2{font-size:17px;margin:0 0 12px}.question-nav h2 small{font-size:13px;font-weight:400;color:#668577}.nav-toggle{display:none}.nav-group h3{font-size:13px;margin:14px 0 8px;color:#48695d}.number-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}.question-number{width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:50%;padding:0;border:1px solid #cad7cb;background:#f9faf7;font-size:13px;font-variant-numeric:tabular-nums}.question-number.answered{background:#235e4b;color:white;border-color:#235e4b}.nav-legend{display:flex;align-items:center;gap:7px;font-size:12px;color:#62776b}.legend-dot{width:10px;height:10px;border:1px solid #cad7cb;border-radius:50%;background:#f9faf7}.legend-dot.answered{background:#235e4b;border-color:#235e4b}.question-nav .hint{font-size:11px;margin-bottom:0}
 @media(min-width:1100px){header div,.shell{margin-left:calc((100vw - 1060px)/2);margin-right:260px}.question-nav{right:calc((100vw - 1060px)/2)}}
 @media(max-width:1099px){.shell{padding-bottom:120px}.question-nav{top:auto;bottom:12px;left:12px;right:12px;width:auto;padding:12px 16px;max-height:60dvh}.question-nav h2{display:none}.nav-toggle{display:flex;width:100%;align-items:center;justify-content:space-between;background:transparent;padding:4px 0;font-size:14px}.nav-body{display:none;max-height:45dvh;overflow:auto;padding-bottom:4px}.question-nav.open .nav-body{display:block}.number-grid{grid-template-columns:repeat(auto-fill,minmax(32px,1fr))}.question-number{width:32px;height:32px}.nav-legend{margin-top:12px}.question-nav.open{box-shadow:0 0 0 100vmax #18382e18,0 4px 24px #18382e20}}
-</style></head><body><header><div><small>INFORMATION TECHNOLOGY · STUDY</small><h1>信息科技教师宝典</h1><p>每天一点积累，向更扎实的专业能力前进。</p></div></header><main class="shell"><div class="intro"><b id="dailyTitle">每日练习</b><br>每天北京时间 9:00 切换。20 道选择、5 道填空、2 道简答、1 道程序设计或数据库实践题。客观题自动判分；简答题和程序题对照参考答案自评。<p class="hint"><span id="bankCount">正在载入题库…</span><br>其中 1,916 道单选和 958 道填空为参数变式；每日新单选默认按教综 4、教学论 4、专业知识 10、计算变式 2 轮换，错题可按题型替换。此为训练配比，不代表地区考试比例。<br><button id="downloadBank" type="button">下载完整题库 JSON</button> <a href="sources.json" target="_blank" rel="noopener">出题依据与资料范围</a></p><div id="dailyNotice" hidden>新一天的练习已准备好，当前作答已自动保存。<button type="button" onclick="location.reload()">打开新练习</button></div></div><section class="intro" aria-label="今日概念" id="dailyConcept"></section><section class="intro" aria-label="招聘备考范围"><b>江苏高中信息技术教师招聘 · 备考范围</b><p>教综关注教育心理、学习迁移、评价与师德；专业覆盖组成、编码、算法与程序、网络安全、数据库、多媒体、AI 与物联网；主观题强化案例分析和教学设计。</p><p class="hint">高中课标：2017 年版 2020 年修订；2022 年版信息科技课标及六条逻辑主线属于义务教育。各地、批次和岗位的考试方式不同；宜兴 2025 年部分岗位教综 30%、学科 70%，泰州中学 2025 校招信息技术另测算法与程序设计，均不能推作全省或 2027 年规则。“教学论占卷面 40%”缺少统一依据。<a href="sources.json" target="_blank" rel="noopener">查看公告与课标来源</a></p></section><nav class="tabs" aria-label="练习导航"><button id="practiceTab" class="active">今日练习</button><button id="mistakeTab">错题本</button></nav><div id="app"></div><footer><b>上次聊天中的错题复习：</b>DNS 将域名解析为 IP；二分查找要求有序；Python 使用 def 定义函数；HTTPS 通常使用 TLS；算法可有一个或多个输出。项目学习可按目标、任务、过程、评价组织；循环计数先初始化，再逐项判断。<br><br>本套为原创练习题，参考高中信息技术课程标准及教师招聘常见知识范围，不标称江苏真题。<a href="https://www.moe.gov.cn/srcsite/A26/s8001/202006/t20200603_462199.html" target="_blank" rel="noopener">教育部课程标准通知</a> · 答题记录仅保存在当前浏览器，清除浏览器数据会丢失，换设备不会同步。</footer></main><aside id="questionNav" class="question-nav" aria-label="题号导航"></aside><script>
+
+/* 答题卡视觉层 */
+.question-nav{width:242px;padding:0;overflow:auto;background:#fffefa;border-color:#d9e4d8;border-radius:20px;box-shadow:0 18px 44px #153a2d1c,0 2px 8px #153a2d0b}
+.nav-heading{padding:18px 18px 14px;background:linear-gradient(130deg,#eaf2e9,#f7f8f0);border-bottom:1px solid #e1eadf}
+.nav-eyebrow{display:block;font-size:9px;letter-spacing:.14em;font-weight:700;color:#668778;margin-bottom:7px}
+.question-nav h2{margin:0;display:flex;justify-content:space-between;align-items:baseline;font-size:17px;color:#214b3b}
+.question-nav h2 small{font-size:13px;font-weight:650;color:#3f6e5b;font-variant-numeric:tabular-nums}
+.nav-body{padding:14px 18px 16px}
+.nav-progress{height:6px;border-radius:20px;background:#e7eee7;overflow:hidden;margin-bottom:12px}
+.nav-progress span{display:block;height:100%;background:linear-gradient(90deg,#6eaf83,#2d795a);border-radius:20px;transition:width .2s ease}
+.nav-legend{margin:0 0 8px;gap:6px;color:#738779;font-size:11px}
+.legend-dot{width:9px;height:9px;background:#fffefa;border-color:#c8d7cd}
+.legend-dot.answered{background:#cfe9d7;border-color:#93c4a5}
+.nav-group{padding:12px 0 14px;border-bottom:1px solid #edf1ea}
+.nav-group:last-of-type{border-bottom:0;padding-bottom:8px}
+.nav-group h3{display:flex;align-items:baseline;justify-content:space-between;margin:0 0 11px;font-size:12px;font-weight:700;letter-spacing:.05em;color:#2d5d48}
+.nav-group h3 small{font-size:10px;font-weight:500;color:#9aad9d;letter-spacing:0}
+.number-grid{grid-template-columns:repeat(5,minmax(0,1fr));gap:7px}
+.question-number{width:32px;height:32px;border:1px solid #d5e1d6;background:#fffefa;color:#607c6b;font-size:12px;font-weight:600;transition:background .15s,border-color .15s,transform .15s,box-shadow .15s}
+.question-number:hover{background:#edf5ec;border-color:#93bea0;transform:translateY(-2px);box-shadow:0 3px 7px #235e4b1b}
+.question-number.answered{background:#d9eddf;border-color:#abd1b5;color:#1d6042;box-shadow:inset 0 0 0 1px #ffffff94}
+.question-number.answered:hover{background:#c7e5d1;border-color:#70ad83}
+.question-number:focus-visible{outline:2px solid #c58a33;outline-offset:2px}
+.question-nav .nav-footnote{font-size:11px;color:#869989;margin:8px 0 0}
+@media(min-width:1100px){.question-nav{right:calc((100vw - 1060px)/2);top:calc(var(--site-header-height, 176px) + 16px);max-height:calc(100dvh - var(--site-header-height, 176px) - 32px)}}
+@media(max-width:1099px){.question-nav{width:auto;padding:0;border-radius:18px;max-height:60dvh}.nav-heading{display:none}.nav-toggle{padding:14px 17px;gap:12px;color:#214b3b}.nav-toggle strong{font-size:14px}.nav-toggle span{font-size:12px;color:#60806b}.nav-body{padding:0 17px 14px;max-height:45dvh}.nav-progress{margin-top:3px}.number-grid{grid-template-columns:repeat(auto-fill,minmax(32px,1fr))}}
+</style></head><body><header><div><small>INFORMATION TECHNOLOGY · STUDY</small><h1>信息科技教师宝典</h1><p>每天一点积累，向更扎实的专业能力前进。</p></div></header><main class="shell"><div class="intro"><b id="dailyTitle">每日练习</b><br>每天北京时间 9:00 切换。20 道选择、5 道填空、2 道简答、1 道程序设计或数据库实践题。客观题自动判分；简答题和程序题对照参考答案自评。<p class="hint"><span id="bankCount">正在载入题库…</span><br>其中 1,916 道单选和 958 道填空为参数变式；每日新单选默认按教综 4、教学论 4、专业知识 10、计算变式 2 轮换，错题可按题型替换。此为训练配比，不代表地区考试比例。<br><button id="downloadBank" type="button">下载完整题库 JSON</button> <a href="sources.json" target="_blank" rel="noopener">出题依据与资料范围</a></p><div id="dailyNotice" hidden>新一天的练习已准备好，当前作答已自动保存。<button type="button" onclick="location.reload()">打开新练习</button></div></div><section class="intro" aria-label="今日概念" id="dailyConcept"></section><nav class="tabs" aria-label="练习导航"><button id="practiceTab" class="active">今日练习</button><button id="mistakeTab">错题本</button></nav><div id="app"></div><footer><b>上次聊天中的错题复习：</b>DNS 将域名解析为 IP；二分查找要求有序；Python 使用 def 定义函数；HTTPS 通常使用 TLS；算法可有一个或多个输出。项目学习可按目标、任务、过程、评价组织；循环计数先初始化，再逐项判断。<br><br>本套为原创练习题，参考高中信息技术课程标准及教师招聘常见知识范围，不标称江苏真题。<a href="https://www.moe.gov.cn/srcsite/A26/s8001/202006/t20200603_462199.html" target="_blank" rel="noopener">教育部课程标准通知</a> · 答题记录仅保存在当前浏览器，清除浏览器数据会丢失，换设备不会同步。</footer></main><aside id="questionNav" class="question-nav" aria-label="题号导航"></aside><script>
 const choices=[
 ['计算机内部通常采用哪种数制表示数据？',['十进制','二进制','八进制','罗马数字'],1,'计算机硬件易于用两种稳定状态表示 0 和 1。'],
 ['一个字节（Byte）通常包含多少个二进制位？',['4','8','16','32'],1,'1 Byte = 8 bit。'],
@@ -259,6 +285,7 @@ for (const q of state.dailyReviews[QUIZ_DATE]) {
 
 // 清除旧版批改服务的会话设置，保留答题和错题记录。
 try { sessionStorage.removeItem('teacher-grader-settings'); } catch {}
+const updateHeaderHeight=()=>document.documentElement.style.setProperty('--site-header-height',document.querySelector('header').offsetHeight+'px');updateHeaderHeight();addEventListener('resize',updateHeaderHeight);
 let answerCardOpen=false;
 function hasAnswer(q) {
   const value=state.answers[q.id];
@@ -270,10 +297,10 @@ function renderQuestionNavigation() {
   const answered=list.filter(hasAnswer).length;
   const groups=[['选择题','选择'],['填空题','填空'],['简答题','主观题'],['编程题','程序']];
   nav.classList.toggle('open',answerCardOpen);
-  nav.innerHTML='<h2>答题卡 <small>'+answered+' / '+list.length+'</small></h2><button type="button" class="nav-toggle" id="answerCardToggle" aria-expanded="'+answerCardOpen+'" aria-controls="answerCardBody">答题卡 · 已答 '+answered+' / '+list.length+' <span>'+(answerCardOpen?'收起 ▾':'展开 ▴')+'</span></button><div id="answerCardBody" class="nav-body"><p class="nav-legend"><span class="legend-dot"></span>未答 <span class="legend-dot answered"></span>已答</p>'+groups.map(([type,title])=>{
+  nav.innerHTML='<div class="nav-heading"><span class="nav-eyebrow">QUICK NAVIGATION</span><h2>答题卡 <small>'+answered+' / '+list.length+'</small></h2></div><button type="button" class="nav-toggle" id="answerCardToggle" aria-expanded="'+answerCardOpen+'" aria-controls="answerCardBody"><strong>答题卡</strong><span>已答 '+answered+' / '+list.length+' · '+(answerCardOpen?'收起 ▾':'展开 ▴')+'</span></button><div id="answerCardBody" class="nav-body"><div class="nav-progress" role="progressbar" aria-label="已答进度" aria-valuemin="0" aria-valuemax="'+list.length+'" aria-valuenow="'+answered+'"><span style="width:'+(list.length?Math.round(answered/list.length*100):0)+'%"></span></div><p class="nav-legend"><span class="legend-dot"></span>未答 <span class="legend-dot answered"></span>已答</p>'+groups.map(([type,title])=>{
     const entries=list.map((q,i)=>({q,number:i+1})).filter(item=>item.q.type===type);
-    return entries.length?'<section class="nav-group"><h3>'+title+'</h3><div class="number-grid">'+entries.map(({q,number})=>'<button type="button" class="question-number'+(hasAnswer(q)?' answered':'')+'" data-jump="'+esc(q.id)+'" aria-label="第'+number+'题，'+title+'，'+(hasAnswer(q)?'已答':'未答')+'">'+number+'</button>').join('')+'</div></section>':'';
-  }).join('')+'<p class="hint">已答仅表示已填写，不代表正确。</p></div>';
+    return entries.length?'<section class="nav-group"><h3>'+title+' <small>'+entries.length+' 题</small></h3><div class="number-grid">'+entries.map(({q,number})=>'<button type="button" class="question-number'+(hasAnswer(q)?' answered':'')+'" data-jump="'+esc(q.id)+'" aria-label="第'+number+'题，'+title+'，'+(hasAnswer(q)?'已答':'未答')+'">'+number+'</button>').join('')+'</div></section>':'';
+  }).join('')+'<p class="hint nav-footnote">已答表示已填写，不代表正确。</p></div>';
   document.querySelector('#answerCardToggle').onclick=()=>{answerCardOpen=!answerCardOpen;renderQuestionNavigation();};
   nav.querySelectorAll('[data-jump]').forEach(button=>button.onclick=()=>{
     const target=document.getElementById('question-'+encodeURIComponent(button.dataset.jump));
