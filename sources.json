@@ -28,10 +28,5 @@
     "id": "sqlite",
     "title": "SQLite SELECT 官方文档",
     "url": "https://www.sqlite.org/lang_select.html"
-  },
-  {
-    "id": "deepseek",
-    "title": "DeepSeek Chat Completions API",
-    "url": "https://api-docs.deepseek.com/api/create-chat-completion/"
   }
 ]
