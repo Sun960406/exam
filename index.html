@@ -182,7 +182,7 @@ programs.push(
 ['使用 SQLite SQL：student(id, name, score) 中计算非 NULL 的平均分，结果列名为 avg_score；没有非 NULL 分数时结果为 NULL。','SELECT AVG(score) AS avg_score\nFROM student;']
 );
 
-let questions=[...cycle(choices,20,dayNumber*20).map(([x,i])=>({id:'c'+i,type:'选择题',q:x[0],options:x[1],answer:x[2],explain:x[3]})),...cycle(fills,5,dayNumber*5).map(([x,i])=>({id:'f'+i,type:'填空题',q:x[0],answer:x[1],explain:x[2]})),...cycle(essays,2,dayNumber*2).map(([x,i])=>({id:'s'+i,type:'简答题',q:x[0],answer:x[1]})),...cycle(programs,1,dayNumber).map(([x,i])=>({id:'p'+i,type:'编程题',q:x[0],answer:x[1]}))];
+let questions=[...cycle(choices,20,dayNumber*20).map(([x,i])=>{ const shift = i < 30 ? 0 : i % 4; return {id:'c'+i,type:'选择题',q:x[0],options:[...x[1].slice(shift),...x[1].slice(0,shift)],answer:(x[2]-shift+4)%4,explain:x[3]}; }),...cycle(fills,5,dayNumber*5).map(([x,i])=>({id:'f'+i,type:'填空题',q:x[0],answer:x[1],explain:x[2]})),...cycle(essays,2,dayNumber*2).map(([x,i])=>({id:'s'+i,type:'简答题',q:x[0],answer:x[1]})),...cycle(programs,1,dayNumber).map(([x,i])=>({id:'p'+i,type:'编程题',q:x[0],answer:x[1]}))];
 const concepts = [
   ['卷积神经网络（CNN）','卷积神经网络常用于图像识别等任务。卷积核处理局部区域，多层网络逐步组合特征；训练会调整模型参数。教学中可讨论数据质量和隐私。','VGG 卷积神经网络论文','https://arxiv.org/abs/1409.1556'],
   ['域名系统（DNS）','DNS 是分层的命名系统，可以帮助客户端查询域名对应的网络地址。访问网站时，通常先查询域名，再与相应服务器建立连接。','互联网工程任务组 DNS 标准','https://www.rfc-editor.org/rfc/rfc1034'],
