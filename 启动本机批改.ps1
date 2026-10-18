@@ -1,4 +1,4 @@
-$ErrorActionPreference = 'Stop'
+﻿$ErrorActionPreference = 'Stop'
 $secureKey = Read-Host '输入更换后的 DeepSeek API Key（输入不显示）' -AsSecureString
 $credential = New-Object System.Net.NetworkCredential('', $secureKey)
 $env:DEEPSEEK_API_KEY = $credential.Password
