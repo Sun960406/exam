@@ -30,7 +30,12 @@
 .question-nav .nav-footnote{font-size:11px;color:#869989;margin:8px 0 0}
 @media(min-width:1100px){.question-nav{right:calc((100vw - 1060px)/2);top:calc(var(--site-header-height, 176px) + 16px);max-height:calc(100dvh - var(--site-header-height, 176px) - 32px)}}
 @media(max-width:1099px){.question-nav{width:auto;padding:0;border-radius:18px;max-height:60dvh}.nav-heading{display:none}.nav-toggle{padding:14px 17px;gap:12px;color:#214b3b}.nav-toggle strong{font-size:14px}.nav-toggle span{font-size:12px;color:#60806b}.nav-body{padding:0 17px 14px;max-height:45dvh}.nav-progress{margin-top:3px}.number-grid{grid-template-columns:repeat(auto-fill,minmax(32px,1fr))}}
-</style></head><body><header><div><small>INFORMATION TECHNOLOGY · STUDY</small><h1>信息科技教师宝典</h1><p>每天一点积累，向更扎实的专业能力前进。</p></div></header><main class="shell"><div class="intro"><b id="dailyTitle">每日练习</b><br>每天北京时间 9:00 切换。20 道选择、5 道填空、2 道简答、1 道程序设计或数据库实践题。客观题自动判分；简答题和程序题对照参考答案自评。<p class="hint"><span id="bankCount">正在载入题库…</span><br>其中 1,916 道单选和 958 道填空为参数变式；每日新单选默认按教综 4、教学论 4、专业知识 10、计算变式 2 轮换，错题可按题型替换。此为训练配比，不代表地区考试比例。<br><button id="downloadBank" type="button">下载完整题库 JSON</button> <a href="sources.json" target="_blank" rel="noopener">出题依据与资料范围</a></p><div id="dailyNotice" hidden>新一天的练习已准备好，当前作答已自动保存。<button type="button" onclick="location.reload()">打开新练习</button></div></div><section class="intro" aria-label="今日概念" id="dailyConcept"></section><nav class="tabs" aria-label="练习导航"><button id="practiceTab" class="active">今日练习</button><button id="mistakeTab">错题本</button></nav><div id="app"></div><footer><b>上次聊天中的错题复习：</b>DNS 将域名解析为 IP；二分查找要求有序；Python 使用 def 定义函数；HTTPS 通常使用 TLS；算法可有一个或多个输出。项目学习可按目标、任务、过程、评价组织；循环计数先初始化，再逐项判断。<br><br>本套为原创练习题，参考高中信息技术课程标准及教师招聘常见知识范围，不标称江苏真题。<a href="https://www.moe.gov.cn/srcsite/A26/s8001/202006/t20200603_462199.html" target="_blank" rel="noopener">教育部课程标准通知</a> · 答题记录仅保存在当前浏览器，清除浏览器数据会丢失，换设备不会同步。</footer></main><aside id="questionNav" class="question-nav" aria-label="题号导航"></aside><script>
+
+.cloud-sync{background:#fffefa;border:1px solid #dbe5d9;box-shadow:0 2px 10px #234a3710;padding:17px 20px}
+.cloud-head{display:flex;align-items:center;justify-content:space-between}.cloud-head small{font-size:10px;letter-spacing:.14em;font-weight:700;color:#69937b}.cloud-head h2{font-size:17px;margin:3px 0;color:#265541}.cloud-mark{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:#e7f2e9;color:#2c7554;font-size:19px}
+.cloud-sync #cloudStatus{margin:8px 0;color:#537260}.cloud-sync #cloudStatus[data-state=error]{color:#a04a34}.cloud-sync #cloudStatus[data-state=ok]{color:#247048}
+.cloud-sync form{display:flex;flex-wrap:wrap;align-items:end;gap:10px;margin:12px 0}.cloud-sync form[hidden]{display:none}.cloud-sync label{font-size:12px;color:#537260;min-width:180px;flex:1}.cloud-sync input{display:block;margin-top:5px;width:100%;border:1px solid #ccd8cc;border-radius:9px;padding:10px;font:inherit}.cloud-actions{display:flex;gap:8px}.cloud-actions button,.cloud-account button{padding:10px 12px}.cloud-account{display:flex;gap:10px;align-items:center;font-size:12px;color:#537260}.cloud-help{font-size:12px;color:#748879;margin:10px 0 0}
+</style></head><body><header><div><small>INFORMATION TECHNOLOGY · STUDY</small><h1>信息科技教师宝典</h1><p>每天一点积累，向更扎实的专业能力前进。</p></div></header><main class="shell"><div class="intro"><b id="dailyTitle">每日练习</b><br>每天北京时间 9:00 切换。20 道选择、5 道填空、2 道简答、1 道程序设计或数据库实践题。客观题自动判分；简答题和程序题对照参考答案自评。<p class="hint"><span id="bankCount">正在载入题库…</span><br>其中 1,916 道单选和 958 道填空为参数变式；每日新单选默认按教综 4、教学论 4、专业知识 10、计算变式 2 轮换，错题可按题型替换。此为训练配比，不代表地区考试比例。<br><button id="downloadBank" type="button">下载完整题库 JSON</button> <a href="sources.json" target="_blank" rel="noopener">出题依据与资料范围</a></p><div id="dailyNotice" hidden>新一天的练习已准备好，当前作答已自动保存。<button type="button" onclick="location.reload()">打开新练习</button></div></div><section class="intro" aria-label="今日概念" id="dailyConcept"></section><section class="intro cloud-sync" id="cloudSync" aria-label="跨设备同步"><div class="cloud-head"><div><small>CLOUD SYNC</small><h2>跨设备同步</h2></div><span class="cloud-mark" aria-hidden="true">↗</span></div><p class="hint" id="cloudStatus" role="status" aria-live="polite">正在检查同步设置…</p><form id="cloudForm" hidden><label>邮箱<input type="email" name="email" autocomplete="email" required></label><label>密码<input type="password" name="password" autocomplete="current-password" required minlength="6"></label><div class="cloud-actions"><button class="primary" type="submit">登录并同步</button><button id="cloudSignup" type="button">注册账号</button></div></form><div class="cloud-account"><span id="cloudAccount"></span><button id="cloudLogout" type="button" hidden>退出同步</button></div><p class="cloud-help">本机作答仍自动保存；登录同一账号后与其他设备同步。</p></section><nav class="tabs" aria-label="练习导航"><button id="practiceTab" class="active">今日练习</button><button id="mistakeTab">错题本</button></nav><div id="app"></div><footer><b>上次聊天中的错题复习：</b>DNS 将域名解析为 IP；二分查找要求有序；Python 使用 def 定义函数；HTTPS 通常使用 TLS；算法可有一个或多个输出。项目学习可按目标、任务、过程、评价组织；循环计数先初始化，再逐项判断。<br><br>本套为原创练习题，参考高中信息技术课程标准及教师招聘常见知识范围，不标称江苏真题。<a href="https://www.moe.gov.cn/srcsite/A26/s8001/202006/t20200603_462199.html" target="_blank" rel="noopener">教育部课程标准通知</a> · 作答先保存在当前浏览器；配置云同步并登录同一账号后可跨设备同步。</footer></main><aside id="questionNav" class="question-nav" aria-label="题号导航"></aside><script>
 const choices=[
 ['计算机内部通常采用哪种数制表示数据？',['十进制','二进制','八进制','罗马数字'],1,'计算机硬件易于用两种稳定状态表示 0 和 1。'],
 ['一个字节（Byte）通常包含多少个二进制位？',['4','8','16','32'],1,'1 Byte = 8 bit。'],
@@ -313,7 +318,7 @@ function renderQuestionNavigation() {
 
 let view = 'practice';
 const app = document.querySelector('#app');
-function save() { localStorage.setItem(KEY, JSON.stringify(state)); }
+function save() { localStorage.setItem(KEY, JSON.stringify(state)); window.practiceSync?.onLocalSave(state); }
 save();
 function esc(s) { return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 function norm(s) { return String(s || '').trim().toLowerCase().replace(/\s+/g, ''); }
@@ -368,8 +373,9 @@ document.querySelector('#downloadBank').onclick=()=>{
 };
 
 render();
+window.practiceApp={key:KEY,getState:()=>state,applyCloudState(next){localStorage.setItem(KEY,JSON.stringify(next));location.reload();}};
 
-</script></body></html>
+</script><script src="sync-config.js"></script><script src="cloud-sync.js"></script></body></html>
 
 
 
