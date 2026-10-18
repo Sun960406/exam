@@ -1,0 +1,37 @@
+[
+  {
+    "id": "local-outline",
+    "title": "本地专业知识讲义和重点背诵总结",
+    "scope": "只用于选取考点；含过时表述，不作为答案唯一依据",
+    "paths": [
+      "E:\\学习\\教师招聘\\信息技术学科专业知识章节系统复习讲义.docx",
+      "E:\\学习\\教师招聘\\信息技术学科专业知识必考点重点背诵总结.docx"
+    ]
+  },
+  {
+    "id": "curriculum",
+    "title": "普通高中信息技术课程标准",
+    "url": "https://www.pep.com.cn/xw/zt/rjwy/gzkb2020/202205/P020220517521187437000.pdf"
+  },
+  {
+    "id": "competition",
+    "title": "常州市高中信息技术教师教学基本功比赛通知（2013 年）",
+    "url": "https://jky.czedu.cn/html/article5591041.html",
+    "scope": "专业知识、操作和教学能力范围，非试题原文"
+  },
+  {
+    "id": "python",
+    "title": "Python 3 官方教程",
+    "url": "https://docs.python.org/3/tutorial/"
+  },
+  {
+    "id": "sqlite",
+    "title": "SQLite SELECT 官方文档",
+    "url": "https://www.sqlite.org/lang_select.html"
+  },
+  {
+    "id": "deepseek",
+    "title": "DeepSeek Chat Completions API",
+    "url": "https://api-docs.deepseek.com/api/create-chat-completion/"
+  }
+]
