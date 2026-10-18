@@ -1,6 +1,6 @@
 <!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f7f5ef"><title>信息科技教师宝典 · 每日练习</title><style>
 :root{font-family:system-ui,-apple-system,"Microsoft Yahei",sans-serif;color:#263d37;background:#f6f5ef}*{box-sizing:border-box}body{margin:0}header{background:#193e38;color:#fff;padding:30px 20px 34px}header div,main{max-width:780px;margin:auto}header small{letter-spacing:.13em;color:#b5d6bf}h1{font-size:clamp(25px,6vw,38px);margin:12px 0 8px}header p{color:#d4e4d8;line-height:1.7;margin:0}.shell{padding:0 16px 80px}.intro{background:#e5eee3;border-radius:14px;padding:18px;margin:20px 0;line-height:1.7}.tabs{display:flex;gap:8px;flex-wrap:wrap;position:sticky;top:0;background:#f6f5ef;padding:10px 0;z-index:3}button{font:inherit;border:0;border-radius:9px;padding:11px 15px;cursor:pointer;background:#e4e9e2;color:#25443b}button.primary,.tabs button.active{background:#235e4b;color:white}button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid #d49b42;outline-offset:2px}.stats{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0 20px}.pill{background:#fff;border:1px solid #e2e7dd;border-radius:30px;padding:7px 12px;font-size:13px}.question{background:#fff;border:1px solid #e4e8df;border-radius:14px;padding:20px;margin:12px 0;box-shadow:0 2px 8px #233b3010}.meta{font-size:12px;color:#668577;margin-bottom:9px}.question h3{font-size:16px;line-height:1.7;margin:0 0 13px;font-weight:650}.option{display:flex;gap:9px;align-items:flex-start;padding:9px 10px;border-radius:8px;line-height:1.5}.option:has(input:checked){background:#e8f1e8}.option input{margin-top:5px;accent-color:#277350}textarea,.answer{width:100%;border:1px solid #ccd8cc;border-radius:9px;padding:11px;font:inherit;color:#273a35;background:#fcfdfb}textarea{min-height:90px;resize:vertical}textarea.code{min-height:150px;font-family:monospace}.result{margin-top:14px;border-top:1px solid #e5eae3;padding-top:12px;line-height:1.7;font-size:14px;white-space:pre-wrap}.good{color:#247048}.bad{color:#a04a34}.hint{font-size:13px;color:#697e72;line-height:1.6}.actions{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0}.empty{padding:35px;background:white;border-radius:14px;text-align:center;color:#62776b}a{color:#256a55}footer{color:#687c70;font-size:13px;line-height:1.7;margin:35px 0}pre{white-space:pre-wrap}label{cursor:pointer}
-</style></head><body><header><div><small>INFORMATION TECHNOLOGY · STUDY</small><h1>信息科技教师宝典</h1><p>每天一点积累，向更扎实的专业能力前进。</p></div></header><main class="shell"><div class="intro"><b id="dailyTitle">每日练习</b><br>每天北京时间 9:00 切换。20 道选择、5 道填空、2 道简答、1 道程序设计或数据库实践题。客观题自动判分；主观题对照答案自评。<p class="hint">当前为小规模试运行题库，题目会重复；5,000 道选择、2,000 道填空和 1,000 道程序题尚未完成。</p><div id="dailyNotice" hidden>新一天的练习已准备好，当前作答已自动保存。<button type="button" onclick="location.reload()">打开新练习</button></div></div><section class="intro" aria-label="今日概念" id="dailyConcept"></section><nav class="tabs" aria-label="练习导航"><button id="practiceTab" class="active">今日练习</button><button id="mistakeTab">错题本</button></nav><div id="app"></div><footer><b>上次聊天中的错题复习：</b>DNS 将域名解析为 IP；二分查找要求有序；Python 使用 def 定义函数；HTTPS 通常使用 TLS；算法可有一个或多个输出。项目学习可按目标、任务、过程、评价组织；循环计数先初始化，再逐项判断。<br><br>本套为原创练习题，参考高中信息技术课程标准及教师招聘常见知识范围，不标称江苏真题。<a href="https://www.moe.gov.cn/srcsite/A26/s8001/202006/t20200603_462199.html" target="_blank" rel="noopener">教育部课程标准通知</a> · 答题记录仅保存在当前浏览器，清除浏览器数据会丢失，换设备不会同步。</footer></main><script>
+</style></head><body><header><div><small>INFORMATION TECHNOLOGY · STUDY</small><h1>信息科技教师宝典</h1><p>每天一点积累，向更扎实的专业能力前进。</p></div></header><main class="shell"><div class="intro"><b id="dailyTitle">每日练习</b><br>每天北京时间 9:00 切换。20 道选择、5 道填空、2 道简答、1 道程序设计或数据库实践题。客观题自动判分；主观题对照答案自评。<p class="hint">当前试运行题库有 54 道选择、22 道填空、3 道简答、10 道程序或数据库题；题目会重复。目标 5,000 道选择、2,000 道填空、1,000 道程序题尚未完成。</p><div id="dailyNotice" hidden>新一天的练习已准备好，当前作答已自动保存。<button type="button" onclick="location.reload()">打开新练习</button></div></div><section class="intro" aria-label="今日概念" id="dailyConcept"></section><nav class="tabs" aria-label="练习导航"><button id="practiceTab" class="active">今日练习</button><button id="mistakeTab">错题本</button></nav><div id="app"></div><footer><b>上次聊天中的错题复习：</b>DNS 将域名解析为 IP；二分查找要求有序；Python 使用 def 定义函数；HTTPS 通常使用 TLS；算法可有一个或多个输出。项目学习可按目标、任务、过程、评价组织；循环计数先初始化，再逐项判断。<br><br>本套为原创练习题，参考高中信息技术课程标准及教师招聘常见知识范围，不标称江苏真题。<a href="https://www.moe.gov.cn/srcsite/A26/s8001/202006/t20200603_462199.html" target="_blank" rel="noopener">教育部课程标准通知</a> · 答题记录仅保存在当前浏览器，清除浏览器数据会丢失，换设备不会同步。</footer></main><script>
 const choices=[
 ['计算机内部通常采用哪种数制表示数据？',['十进制','二进制','八进制','罗马数字'],1,'计算机硬件易于用两种稳定状态表示 0 和 1。'],
 ['一个字节（Byte）通常包含多少个二进制位？',['4','8','16','32'],1,'1 Byte = 8 bit。'],
@@ -64,6 +64,58 @@ function cycle(items, count, offset) {
   });
 }
 const programs = [programming, programming2];
+// 原创练习，参考高中课程标准及江苏信息技术教师专业技能范围。
+choices.push(
+['在 Python 3 中，表达式 17 % 5 的值是？',['2','3','5','余数不存在'],0,'17 除以 5 的余数为 2。'],
+['Python 3 中 len("数据") 的值是？',['1','2','4','6'],1,'Python 字符串长度按字符计数，这里有两个字符。'],
+['一个空的 Python 列表 a 执行 a.append(3) 后，a 是？',['[3]','3','[]','[0,3]'],0,'append 将元素添加到列表末尾。'],
+['给定 Python 3 的 x = 7，条件 x >= 5 and x < 10 的值是？',['True','False','7','报错'],0,'7 同时满足两个比较条件。'],
+['排序完成的升序列表中，最小值通常位于？',['第一个位置','最后一个位置','中间位置','任意位置'],0,'升序排列时较小的元素在前。'],
+['若顺序查找长度为 n 的列表且目标不存在，需要比较多少个元素？',['n 个','1 个','0 个','log₂n 个'],0,'不存在时必须检查所有 n 个元素。'],
+['栈的典型操作顺序是？',['后进先出','先进先出','随机进出','只能插入不能删除'],0,'栈从同一端入栈和出栈，后进先出。'],
+['队列的典型操作顺序是？',['先进先出','后进先出','只能访问最后一个','必须排序后访问'],0,'队列通常在尾部入队、头部出队。'],
+['关系数据库中，筛选分数不低于 60 的记录可以使用？',['WHERE score >= 60','ORDER BY score','SELECT score','GROUP BY score'],0,'WHERE 子句按条件筛选记录。'],
+['在 SQL 查询中，ORDER BY score DESC 表示？',['按 score 降序排列','按 score 升序排列','删除 score','把 score 全设为零'],0,'DESC 指降序。'],
+['在关系数据库中，用于统计查询结果行数的聚合函数通常是？',['COUNT(*)','SUM(*)','AVG(*)','MAX(*)'],0,'COUNT(*) 统计行数。'],
+['两个十进制数 5 和 3 对应的二进制表示分别是？',['101 和 11','100 和 10','110 和 11','11 和 101'],0,'5 = 4 + 1，3 = 2 + 1。'],
+['8 个二进制位能够表示多少种不同的位组合？',['256','8','16','128'],0,'每一位有两种可能，共 2 的 8 次方种。'],
+['在局域网中，交换机通常依据什么转发以太网帧？',['目的 MAC 地址','网页标题','文件扩展名','屏幕分辨率'],0,'交换机根据 MAC 地址表决定转发端口。'],
+['URL 中的域名主要用于什么？',['标识网络资源所在主机的名称','表示文件像素宽度','记录用户键盘输入','设置显示器亮度'],0,'域名可通过 DNS 等机制解析以定位网络主机。'],
+['在公开网络传输敏感数据时，优先选用哪种方式？',['使用 HTTPS 并核验网站身份','使用明文 HTTP 发送密码','将密码写在公开评论中','关闭设备锁屏'],0,'HTTPS 利用 TLS 保护传输并验证服务器身份。'],
+['保护个人账号的较好做法是？',['使用不同的强密码并开启多因素验证','多个网站共用简单密码','将验证码告诉陌生人','公开密码便于找回'],0,'独立强密码和多因素验证有助于降低账号被盗风险。'],
+['图像无损压缩的特点是？',['解压后可以恢复原始像素数据','解压后必定损失颜色','只能用于黑白图像','不能缩小任何文件'],0,'无损压缩允许完整恢复原始数据。'],
+['一幅 20×10 像素的图像，每像素 8 位，不计其他信息，像素数据占多少字节？',['200','100','1600','20'],0,'20×10×8 位 ÷ 8 = 200 字节。'],
+['处理学生调查数据之前，较合适的做法是？',['明确用途并尽量去除不必要的个人标识','直接公开所有姓名与联系方式','随意收集无关的隐私数据','不告知任何使用目的'],0,'处理数据应考虑目的、必要性与隐私保护。'],
+['训练数据严重偏向某一人群可能导致什么？',['模型对其他人群的表现不佳','模型一定对所有人公平','模型必定不需要测试','模型会自动消除所有偏差'],0,'训练数据分布影响模型在不同人群上的表现。'],
+['评价学生项目作品时，哪种方式更有利于改进过程？',['结合标准开展阶段反馈与最终评价','只比较文件大小','只评价是否使用动画','不告知任何评价标准'],0,'明确标准和过程反馈能帮助学生改进作品。'],
+['设计高中信息技术教学活动时，教学目标、活动与评价之间应如何安排？',['三者相互对应','三者互不相关','只写评价不设目标','只安排操作不考虑学习结果'],0,'目标、学习活动与评价应保持一致。'],
+['学生编写程序时，使用边界测试的主要目的是？',['检查空输入、最小值等特殊情况','保证程序运行速度一定最快','取代所有其他测试','证明程序永无错误'],0,'边界和特殊情况容易暴露遗漏，但测试不能证明程序绝无错误。']
+);
+fills.push(
+['Python 3 表达式 23 % 4 的值是____。',['3'],'23 除以 4 的余数为 3。'],
+['Python 3 表达式 3 ** 3 的值是____。',['27'],'3 的三次方为 27。'],
+['十进制数 9 的二进制表示是____。',['1001'],'9 = 8 + 1。'],
+['十进制数 15 的二进制表示是____。',['1111'],'15 = 8 + 4 + 2 + 1。'],
+['Python 中表示逻辑“或”的关键字是____。',['or'],'or 用于逻辑或。'],
+['Python 中表示逻辑“非”的关键字是____。',['not'],'not 用于逻辑取反。'],
+['栈的进出顺序通常称为____。',['后进先出','lifo'],'栈通常后进先出。'],
+['队列的进出顺序通常称为____。',['先进先出','fifo'],'队列通常先进先出。'],
+['SQL 中筛选记录条件的子句是____。',['where'],'WHERE 用于筛选记录。'],
+['SQL 中用于排序的子句是____。',['order by'],'ORDER BY 指定排序规则。'],
+['SQL 中统计结果行数常用的表达式是____。',['count(*)','count（*）'],'COUNT(*) 统计结果行数。'],
+['网页传输中，HTTPS 通常使用的安全协议是____。',['tls'],'HTTPS 通常通过 TLS 保护 HTTP 通信。']
+);
+programs.push(
+['使用 Python 3 编写函数 count_positive(nums)，返回整数列表中大于 0 的元素个数；空列表返回 0。例如 [-1,0,2,4] 返回 2。','def count_positive(nums):\n    return sum(1 for x in nums if x > 0)'],
+['使用 Python 3 编写函数 max_or_none(nums)，返回非空整数列表的最大值；空列表返回 None。例如 [3,-2,5] 返回 5。','def max_or_none(nums):\n    if not nums:\n        return None\n    best = nums[0]\n    for x in nums[1:]:\n        if x > best:\n            best = x\n    return best'],
+['使用 Python 3 编写函数 reverse_text(s)，返回字符串 s 的逆序字符串；空字符串返回空字符串。例如 "abc" 返回 "cba"。','def reverse_text(s):\n    return s[::-1]'],
+['使用 Python 3 编写函数 count_even(nums)，返回整数列表中偶数的个数；0 算偶数，空列表返回 0。例如 [0,1,2] 返回 2。','def count_even(nums):\n    return sum(1 for x in nums if x % 2 == 0)'],
+['使用 Python 3 编写函数 first_index(nums, target)，返回目标第一次出现的下标；不存在时返回 -1。例如 [4,2,4], 4 返回 0。','def first_index(nums, target):\n    for i, x in enumerate(nums):\n        if x == target:\n            return i\n    return -1'],
+['使用 SQLite SQL：student(id, name, score) 中查询 score 大于等于 60 的学生 id 和 name，按 id 升序排列。','SELECT id, name\nFROM student\nWHERE score >= 60\nORDER BY id ASC;'],
+['使用 SQLite SQL：student(id, name, score) 中统计 score 小于 60 的记录数，结果列命名为 fail_count；NULL 不计入。','SELECT COUNT(*) AS fail_count\nFROM student\nWHERE score < 60;'],
+['使用 SQLite SQL：student(id, name, score) 中查询非 NULL 的最高分，结果列命名为 highest_score；无非 NULL 分数时结果为 NULL。','SELECT MAX(score) AS highest_score\nFROM student;']
+);
+
 let questions=[...cycle(choices,20,dayNumber*20).map(([x,i])=>({id:'c'+i,type:'选择题',q:x[0],options:x[1],answer:x[2],explain:x[3]})),...cycle(fills,5,dayNumber*5).map(([x,i])=>({id:'f'+i,type:'填空题',q:x[0],answer:x[1],explain:x[2]})),...cycle(essays,2,dayNumber*2).map(([x,i])=>({id:'s'+i,type:'简答题',q:x[0],answer:x[1]})),...cycle(programs,1,dayNumber).map(([x,i])=>({id:'p'+i,type:'编程题',q:x[0],answer:x[1]}))];
 const concepts = [
   ['卷积神经网络（CNN）','卷积神经网络常用于图像识别等任务。卷积核处理局部区域，多层网络逐步组合特征；训练会调整模型参数。教学中可讨论数据质量和隐私。','VGG 卷积神经网络论文','https://arxiv.org/abs/1409.1556'],
