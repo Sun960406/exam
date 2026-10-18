@@ -28,5 +28,23 @@
     "id": "sqlite",
     "title": "SQLite SELECT 官方文档",
     "url": "https://www.sqlite.org/lang_select.html"
+  },
+  {
+    "id": "compulsory2022",
+    "title": "义务教育信息科技课程标准（2022年版）",
+    "url": "https://www.moe.gov.cn/srcsite/A26/s8001/202204/W020220420582361024968.pdf",
+    "scope": "用于区分学段，不称为2022版高中课标"
+  },
+  {
+    "id": "yixing2025",
+    "title": "2025年宜兴市教育系统公开招聘事业编制教师公告（140名批次）",
+    "url": "https://www.wuxi.gov.cn/doc/2025/04/09/4539610.shtml",
+    "scope": "特定年份和批次的30%/70%安排，非全省规则"
+  },
+  {
+    "id": "taizhou2025",
+    "title": "江苏省泰州中学2025年校园公开招聘教师公告",
+    "url": "https://jyj.taizhou.gov.cn/gsgg/art/2024/art_9c44ffaef8a441548ed8a1e311b345bd.html",
+    "scope": "2024年12月发布的2025校招公告，信息技术岗位另考算法和程序设计；不推作2027规则"
   }
 ]

@@ -143,4 +143,3 @@ for(let index=0;fills.length<1000;index++){
   fills.push([stem,[row[1][row[2]]],row[3],'原创·参数变式','family-'+kind]);
 }
 programs.push(...NEW_PROGRAMS);
-
