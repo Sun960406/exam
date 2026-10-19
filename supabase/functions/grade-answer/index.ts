@@ -56,7 +56,7 @@ Deno.serve(async (request) => {
     const upstream = await fetch('https://api.deepseek.com/chat/completions', {
       method: 'POST',
       headers: {'Content-Type': 'application/json', Authorization: 'Bearer ' + secret},
-      body: JSON.stringify({model: Deno.env.get('DEEPSEEK_MODEL') || 'deepseek-flash', temperature: 0, max_tokens: 512, response_format: {type: 'json_object'}, stream: false, messages: [
+      body: JSON.stringify({model: Deno.env.get('DEEPSEEK_MODEL') || 'deepseek-flash', temperature: 0, max_tokens: 512, stream: false, messages: [
         {role: 'system', content: instructions},
         {role: 'user', content: JSON.stringify({type, question, reference, answer})},
       ]}),
@@ -66,7 +66,7 @@ Deno.serve(async (request) => {
     const completion = await upstream.json();
     const raw = completion?.choices?.[0]?.message?.content;
     if (typeof raw !== 'string' || !raw.trim()) throw new Error('empty AI response');
-    const result = JSON.parse(raw);
+    const result = JSON.parse(raw.trim().replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, ''));
     if (!['correct', 'partial', 'incorrect'].includes(result?.verdict)) throw new Error('invalid verdict');
     const score = Number(result.score);
     if (!Number.isInteger(score) || score < 0 || score > 10 || typeof result.feedback !== 'string' || !Array.isArray(result.missing)) throw new Error('invalid response');
