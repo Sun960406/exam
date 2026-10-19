@@ -23,7 +23,8 @@ Deno.serve(async (request) => {
   let key = fallback || '';
   try { if (keys) key = Object.values(JSON.parse(keys))[0] as string; } catch { /* use fallback */ }
   const secret = Deno.env.get('DEEPSEEK_API_KEY');
-  if (!base || !key || !secret) return json({error: '服务端配置不完整。'}, 503);
+  const allowedEmails = (Deno.env.get('GRADER_ALLOWED_EMAILS') || '').split(',').map(x => x.trim().toLowerCase()).filter(Boolean);
+  if (!base || !key || !secret || !allowedEmails.length) return json({error: '服务端配置不完整。'}, 503);
   const bearer = request.headers.get('Authorization') || '';
   if (!/^Bearer \S+$/.test(bearer)) return json({error: '请先登录。'}, 401);
   try {
@@ -33,6 +34,7 @@ Deno.serve(async (request) => {
     if (!auth.ok) return json({error: '登录已过期，请重新登录。'}, 401);
     const user = await auth.json();
     if (!user?.id) return json({error: '无法确认登录身份。'}, 401);
+    if (!user.email_confirmed_at || !allowedEmails.includes(String(user.email || '').toLowerCase())) return json({error: '此账号未获 AI 评阅授权。'}, 403);
     const body = JSON.parse(rawBody);
     const type = text(body?.type, 10), question = text(body?.question, 3000);
     const reference = text(body?.reference, 5000), answer = text(body?.answer, 8000);
