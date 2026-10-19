@@ -4,7 +4,7 @@
 
 ## 1. 准备密钥
 
-此前发送到聊天中的 DeepSeek Key 应在 DeepSeek 后台撤销。新建 Key 后进入你的 Supabase 项目 **Edge Functions → Secrets**，新增 `DEEPSEEK_API_KEY` 并将新 Key 填入 Value。不要将新 Key 发到聊天、提交到仓库或截图展示。
+此前发送到聊天中的 DeepSeek Key 应在 DeepSeek 后台撤销。新建 Key 后进入你的 Supabase 项目 **Edge Functions → Secrets**，新增 `DEEPSEEK_API_KEY` 并将新 Key 填入 Value。再新增 `GRADER_ALLOWED_EMAILS`，Value 填你准备用于答题网页登录的邮箱；如需授权多个邮箱，用英文逗号分隔。必须先完成邮箱验证。未设置允许邮箱时函数拒绝批改，避免公开注册账号消耗你的 API 额度。不要将新 Key 发到聊天、提交到仓库或截图展示。
 
 默认模型为 `deepseek-flash`。如果 DeepSeek 后续调整模型名称，可额外设置 `DEEPSEEK_MODEL` Secret，无须修改网页。
 
