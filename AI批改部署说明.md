@@ -19,10 +19,10 @@
 ```powershell
 npx supabase login
 npx supabase link --project-ref lvfgugalakitgttcmryk
-npx supabase functions deploy grade-answer --no-verify-jwt
+npx supabase functions deploy grade-answer
 ```
 
-部署参数 `--no-verify-jwt` 只关闭平台前置 JWT 检查：**函数内部仍会向 Supabase Auth 验证每次请求的登录令牌**，随后调用带原子配额限制的数据库函数。不能把整个函数改成匿名直连 DeepSeek。
+保留 Supabase 默认 JWT 检查，**函数内部也会向 Supabase Auth 再次验证每次请求的登录令牌**，并检查允许的邮箱，然后调用带原子配额限制的数据库函数。不能把整个函数改成匿名直连 DeepSeek。
 
 ## 4. 更新 GitHub Pages
 
