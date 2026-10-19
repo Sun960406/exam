@@ -5,7 +5,7 @@
   const app=window.practiceApp;
   const panel=document.querySelector('#cloudSync');
   if(!app || !panel)return;
-  const categories=['answers','wrong','submittedDays','dailyPapers','dailyReviews','reviewHistory'];
+  const categories=['answers','wrong','submittedDays','dailyPapers','dailyReviews','reviewHistory','aiGrades'];
   const sessionKey='it-teacher-sync-session-v1';
   const ownerKey='it-teacher-sync-owner-v1';
   const base=String(config.url || '').replace(/\/+$/,'');
@@ -195,7 +195,7 @@
       const path=mode==='signup'?'/auth/v1/signup?redirect_to='+encodeURIComponent(location.origin+location.pathname):'/auth/v1/token?grant_type=password';
       const data=await request(path,{method:'POST',body:{email,password}});
       passwordInput.value='';
-      if(!storeSession(data)){setStatus('注册请求已提交。请查收验证邮件，完成后再登录。','ok');return;}
+      if(!storeSession(data)){setStatus('注册请求已提交。若需要邮箱验证，请检查收件箱和垃圾邮件；已有账号可直接登录。','ok');return;}
       await start();
     }catch(error){showError(error);}
     finally{form.querySelectorAll('button').forEach(button=>button.disabled=false);}
@@ -209,7 +209,7 @@
       clearSession();setStatus('已退出云同步；本机作答保留。');
     }catch(error){showError(error);}
   };
-  window.practiceSync={onLocalSave,pull:()=>pull().catch(showError)};
+  window.practiceSync={onLocalSave,pull:()=>pull().catch(showError),getAccessToken:async()=>{await ensureSession();return session.access_token;}};
   if(!configured){form.hidden=true;logout.hidden=true;setStatus('云同步待配置。请先按随附说明创建 Supabase 项目。');return;}
   try{session=JSON.parse(localStorage.getItem(sessionKey)||'null');}catch{session=null;}
   const fragment=new URLSearchParams(location.hash.slice(1));
