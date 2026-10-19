@@ -72,7 +72,9 @@ Deno.serve(async (request) => {
     if (!Number.isInteger(score) || score < 0 || score > 10 || typeof result.feedback !== 'string' || !Array.isArray(result.missing)) throw new Error('invalid response');
     return json({verdict: result.verdict, score, feedback: text(result.feedback, 300), missing: result.missing.slice(0, 4).map((x: unknown) => text(x, 120)).filter(Boolean)});
   } catch (error) {
-    console.error('grade-answer failed at ' + stage + ': ' + (error instanceof Error ? error.name : 'UnknownError'));
+    const reason = error instanceof Error && ['empty AI response', 'invalid verdict', 'invalid response'].includes(error.message)
+      ? error.message : (error instanceof Error ? error.name : 'UnknownError');
+    console.error('grade-answer failed at ' + stage + ': ' + reason);
     return json({error: '评阅失败，请稍后重试。'}, 502);
   }
 });
