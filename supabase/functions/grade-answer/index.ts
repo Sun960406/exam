@@ -1,4 +1,4 @@
-// Deploy with --no-verify-jwt; this function validates the caller via /auth/v1/user.
+// Supabase verifies the user JWT before execution; the handler also checks Auth and an email allowlist.
 const allowedOrigin = 'https://sun960406.github.io';
 const cors = {
   'Access-Control-Allow-Origin': allowedOrigin,
