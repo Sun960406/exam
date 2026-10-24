@@ -292,6 +292,12 @@ for (const q of state.dailyReviews[QUIZ_DATE]) {
   }
   if (index >= 0) questions[index] = q;
 }
+if(questions.length<30){
+  const note=document.createElement('p');
+  note.className='hint';
+  note.textContent='你已开始今天的试卷，原有 '+questions.length+' 题和作答记录会保留；30 题的新配比从下一份试卷开始。';
+  document.querySelector('#dailyTitle').closest('.intro').append(note);
+}
 
 
 // 清除旧版批改服务的会话设置，保留答题和错题记录。
