@@ -221,6 +221,7 @@ programs.push(
 var BANK_LOAD_FAILED=false;
 </script><script src="practice-bank.js" onerror="BANK_LOAD_FAILED=true"></script><script>
 </script><script>var SCOPE_LOAD_FAILED=false;</script><script src="scope-bank.js" onerror="SCOPE_LOAD_FAILED=true"></script><script>
+</script><script>var PDF_BANK_LOAD_FAILED=false;</script><script src="pdf-bank.js" onerror="PDF_BANK_LOAD_FAILED=true"></script><script>
 let questions=[...(typeof scopeChoiceSelection==='function'?scopeChoiceSelection(dayNumber):cycle(choices,20,dayNumber*20)).map(([x,i])=>{ const shift = i < 30 ? 0 : i % 4; return {id:'c'+i,type:'选择题',q:x[0],options:[...x[1].slice(shift),...x[1].slice(0,shift)],answer:(x[2]-shift+4)%4,explain:x[3],source:x[4] || '原创练习',module:x[6] || '学科专业知识'}; }),...(typeof scopeFillSelection==='function'?scopeFillSelection(dayNumber):cycle(fills,5,dayNumber*5)).map(([x,i])=>({id:'f'+i,type:'填空题',q:x[0],answer:x[1],explain:x[2],source:x[3] || '原创练习',module:x[5] || '学科专业知识'})),...(typeof scopeEssaySelection==='function'?scopeEssaySelection(dayNumber):cycle(essays,3,dayNumber*3)).map(([x,i])=>({id:'s'+i,type:'简答题',q:x[0],answer:x[1],source:x[2] || '原创练习',module:x[3] || '简答题'})),...cycle(programs,2,dayNumber*2).map(([x,i])=>({id:'p'+i,type:'编程题',q:x[0],answer:x[1],source:x[2] || '原创练习'}))];
 const concepts = [
   ['卷积神经网络（CNN）','卷积神经网络常用于图像识别等任务。卷积核处理局部区域，多层网络逐步组合特征；训练会调整模型参数。教学中可讨论数据质量和隐私。','VGG 卷积神经网络论文','https://arxiv.org/abs/1409.1556'],
@@ -428,7 +429,7 @@ function render() {
 
 document.querySelector('#practiceTab').onclick = () => { view = 'practice'; render(); };
 document.querySelector('#mistakeTab').onclick = () => { view = 'mistakes'; render(); };
-document.querySelector('#bankCount').textContent = '题库：'+choices.length+' 道单选、'+fills.length+' 道填空、'+programs.length+' 道程序 / 数据库题，另保留 '+essays.length+' 道简答 / 案例 / 教学设计。'+(BANK_LOAD_FAILED || SCOPE_LOAD_FAILED?'题库扩展文件加载失败，请刷新重试。':'');
+document.querySelector('#bankCount').textContent = '题库：'+choices.length+' 道单选、'+fills.length+' 道填空、'+programs.length+' 道程序 / 数据库题，另保留 '+essays.length+' 道简答 / 案例 / 教学设计。'+(BANK_LOAD_FAILED || SCOPE_LOAD_FAILED || PDF_BANK_LOAD_FAILED?'题库扩展文件加载失败，请刷新重试。':'');
 document.querySelector('#downloadBank').onclick=()=>{
   const data={version:1,notice:'参数化原创练习：1916 道单选、958 道填空为参数变式，不代表独立考点。',choices,fills,programs,essays};
   const url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));
