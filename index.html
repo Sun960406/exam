@@ -36,7 +36,7 @@
 .cloud-sync #cloudStatus{margin:8px 0;color:#537260}.cloud-sync #cloudStatus[data-state=error]{color:#a04a34}.cloud-sync #cloudStatus[data-state=ok]{color:#247048}
 .cloud-sync form{display:flex;flex-wrap:wrap;align-items:end;gap:10px;margin:12px 0}.cloud-sync form[hidden]{display:none}.cloud-sync label{font-size:12px;color:#537260;min-width:180px;flex:1}.cloud-sync input{display:block;margin-top:5px;width:100%;border:1px solid #ccd8cc;border-radius:9px;padding:10px;font:inherit}.cloud-actions{display:flex;gap:8px}.cloud-actions button,.cloud-account button{padding:10px 12px}.cloud-account{display:flex;gap:10px;align-items:center;font-size:12px;color:#537260}.cloud-help{font-size:12px;color:#748879;margin:10px 0 0}
 .ai-review{margin-top:12px;padding:12px;border-radius:10px;background:#f3f8f2;border:1px solid #d8e8d8}.ai-review p{margin:5px 0}.ai-review ul{margin:7px 0;padding-left:20px}.ai-review .hint{margin-bottom:0}.ai-error{color:#a04a34}
-</style></head><body><header><div><small>INFORMATION TECHNOLOGY · STUDY</small><h1>信息科技教师宝典</h1><p>每天一点积累，向更扎实的专业能力前进。</p></div></header><main class="shell"><div class="intro"><b id="dailyTitle">每日练习</b><br>每天北京时间 9:00 切换。20 道选择、5 道填空、2 道简答、1 道程序设计或数据库实践题。客观题自动判分；简答题和程序题可在提交后选择 AI 辅助评阅。<p class="hint"><span id="bankCount">正在载入题库…</span><br>其中 1,916 道单选和 958 道填空为参数变式；每日新单选默认按教综 4、教学论 4、专业知识 10、计算变式 2 轮换，错题可按题型替换。此为训练配比，不代表地区考试比例。<br><button id="downloadBank" type="button">下载完整题库 JSON</button> <a href="sources.json" target="_blank" rel="noopener">出题依据与资料范围</a></p><div id="dailyNotice" hidden>新一天的练习已准备好，当前作答已自动保存。<button type="button" onclick="location.reload()">打开新练习</button></div></div><section class="intro" aria-label="今日概念" id="dailyConcept"></section><section class="intro cloud-sync" id="cloudSync" aria-label="跨设备同步"><div class="cloud-head"><div><small>CLOUD SYNC</small><h2>跨设备同步</h2></div><span class="cloud-mark" aria-hidden="true">↗</span></div><p class="hint" id="cloudStatus" role="status" aria-live="polite">正在检查同步设置…</p><form id="cloudForm" hidden><label>邮箱<input type="email" name="email" autocomplete="email" required></label><label>密码<input type="password" name="password" autocomplete="current-password" required minlength="6"></label><div class="cloud-actions"><button class="primary" type="submit">登录并同步</button><button id="cloudSignup" type="button">注册账号</button></div></form><div class="cloud-account"><span id="cloudAccount"></span><button id="cloudLogout" type="button" hidden>退出同步</button></div><p class="cloud-help">本机作答仍自动保存；登录同一账号后与其他设备同步。</p></section><nav class="tabs" aria-label="练习导航"><button id="practiceTab" class="active">今日练习</button><button id="mistakeTab">错题本</button></nav><div id="app"></div><footer><b>上次聊天中的错题复习：</b>DNS 将域名解析为 IP；二分查找要求有序；Python 使用 def 定义函数；HTTPS 通常使用 TLS；算法可有一个或多个输出。项目学习可按目标、任务、过程、评价组织；循环计数先初始化，再逐项判断。<br><br>本套为原创练习题，参考高中信息技术课程标准及教师招聘常见知识范围，不标称江苏真题。<a href="https://www.moe.gov.cn/srcsite/A26/s8001/202006/t20200603_462199.html" target="_blank" rel="noopener">教育部课程标准通知</a> · 作答先保存在当前浏览器；配置云同步并登录同一账号后可跨设备同步。</footer></main><aside id="questionNav" class="question-nav" aria-label="题号导航"></aside><script>
+</style></head><body><header><div><small>INFORMATION TECHNOLOGY · STUDY</small><h1>信息科技教师宝典</h1><p>每天一点积累，向更扎实的专业能力前进。</p></div></header><main class="shell"><div class="intro"><b id="dailyTitle">每日练习</b><br>每天北京时间 9:00 切换。20 道选择、5 道填空、3 道简答、2 道程序设计或数据库实践题。客观题自动判分；简答题和程序题可在提交后选择 AI 辅助评阅。<p class="hint"><span id="bankCount">正在载入题库…</span><br>其中 1,916 道单选和 958 道填空为参数变式；每日新单选默认按教综 4、教学论 4、专业知识 10、计算变式 2 轮换，错题可按题型替换。此为训练配比，不代表地区考试比例。<br><button id="downloadBank" type="button">下载完整题库 JSON</button> <a href="sources.json" target="_blank" rel="noopener">出题依据与资料范围</a></p><div id="dailyNotice" hidden>新一天的练习已准备好，当前作答已自动保存。<button type="button" onclick="location.reload()">打开新练习</button></div></div><section class="intro" aria-label="今日概念" id="dailyConcept"></section><section class="intro cloud-sync" id="cloudSync" aria-label="跨设备同步"><div class="cloud-head"><div><small>CLOUD SYNC</small><h2>跨设备同步</h2></div><span class="cloud-mark" aria-hidden="true">↗</span></div><p class="hint" id="cloudStatus" role="status" aria-live="polite">正在检查同步设置…</p><form id="cloudForm" hidden><label>邮箱<input type="email" name="email" autocomplete="email" required></label><label>密码<input type="password" name="password" autocomplete="current-password" required minlength="6"></label><div class="cloud-actions"><button class="primary" type="submit">登录并同步</button><button id="cloudSignup" type="button">注册账号</button></div></form><div class="cloud-account"><span id="cloudAccount"></span><button id="cloudLogout" type="button" hidden>退出同步</button></div><p class="cloud-help">本机作答仍自动保存；登录同一账号后与其他设备同步。</p></section><nav class="tabs" aria-label="练习导航"><button id="practiceTab" class="active">今日练习</button><button id="mistakeTab">错题本</button></nav><div id="app"></div><footer><b>上次聊天中的错题复习：</b>DNS 将域名解析为 IP；二分查找要求有序；Python 使用 def 定义函数；HTTPS 通常使用 TLS；算法可有一个或多个输出。项目学习可按目标、任务、过程、评价组织；循环计数先初始化，再逐项判断。<br><br>本套为原创练习题，参考高中信息技术课程标准及教师招聘常见知识范围，不标称江苏真题。<a href="https://www.moe.gov.cn/srcsite/A26/s8001/202006/t20200603_462199.html" target="_blank" rel="noopener">教育部课程标准通知</a> · 作答先保存在当前浏览器；配置云同步并登录同一账号后可跨设备同步。</footer></main><aside id="questionNav" class="question-nav" aria-label="题号导航"></aside><script>
 const choices=[
 ['计算机内部通常采用哪种数制表示数据？',['十进制','二进制','八进制','罗马数字'],1,'计算机硬件易于用两种稳定状态表示 0 和 1。'],
 ['一个字节（Byte）通常包含多少个二进制位？',['4','8','16','32'],1,'1 Byte = 8 bit。'],
@@ -221,7 +221,7 @@ programs.push(
 var BANK_LOAD_FAILED=false;
 </script><script src="practice-bank.js" onerror="BANK_LOAD_FAILED=true"></script><script>
 </script><script>var SCOPE_LOAD_FAILED=false;</script><script src="scope-bank.js" onerror="SCOPE_LOAD_FAILED=true"></script><script>
-let questions=[...(typeof scopeChoiceSelection==='function'?scopeChoiceSelection(dayNumber):cycle(choices,20,dayNumber*20)).map(([x,i])=>{ const shift = i < 30 ? 0 : i % 4; return {id:'c'+i,type:'选择题',q:x[0],options:[...x[1].slice(shift),...x[1].slice(0,shift)],answer:(x[2]-shift+4)%4,explain:x[3],source:x[4] || '原创练习',module:x[6] || '学科专业知识'}; }),...(typeof scopeFillSelection==='function'?scopeFillSelection(dayNumber):cycle(fills,5,dayNumber*5)).map(([x,i])=>({id:'f'+i,type:'填空题',q:x[0],answer:x[1],explain:x[2],source:x[3] || '原创练习',module:x[5] || '学科专业知识'})),...(typeof scopeEssaySelection==='function'?scopeEssaySelection(dayNumber):cycle(essays,2,dayNumber*2)).map(([x,i])=>({id:'s'+i,type:'简答题',q:x[0],answer:x[1],source:x[2] || '原创练习',module:x[3] || '简答题'})),...cycle(programs,1,dayNumber).map(([x,i])=>({id:'p'+i,type:'编程题',q:x[0],answer:x[1],source:x[2] || '原创练习'}))];
+let questions=[...(typeof scopeChoiceSelection==='function'?scopeChoiceSelection(dayNumber):cycle(choices,20,dayNumber*20)).map(([x,i])=>{ const shift = i < 30 ? 0 : i % 4; return {id:'c'+i,type:'选择题',q:x[0],options:[...x[1].slice(shift),...x[1].slice(0,shift)],answer:(x[2]-shift+4)%4,explain:x[3],source:x[4] || '原创练习',module:x[6] || '学科专业知识'}; }),...(typeof scopeFillSelection==='function'?scopeFillSelection(dayNumber):cycle(fills,5,dayNumber*5)).map(([x,i])=>({id:'f'+i,type:'填空题',q:x[0],answer:x[1],explain:x[2],source:x[3] || '原创练习',module:x[5] || '学科专业知识'})),...(typeof scopeEssaySelection==='function'?scopeEssaySelection(dayNumber):cycle(essays,3,dayNumber*3)).map(([x,i])=>({id:'s'+i,type:'简答题',q:x[0],answer:x[1],source:x[2] || '原创练习',module:x[3] || '简答题'})),...cycle(programs,2,dayNumber*2).map(([x,i])=>({id:'p'+i,type:'编程题',q:x[0],answer:x[1],source:x[2] || '原创练习'}))];
 const concepts = [
   ['卷积神经网络（CNN）','卷积神经网络常用于图像识别等任务。卷积核处理局部区域，多层网络逐步组合特征；训练会调整模型参数。教学中可讨论数据质量和隐私。','VGG 卷积神经网络论文','https://arxiv.org/abs/1409.1556'],
   ['域名系统（DNS）','DNS 是分层的命名系统，可以帮助客户端查询域名对应的网络地址。访问网站时，通常先查询域名，再与相应服务器建立连接。','互联网工程任务组 DNS 标准','https://www.rfc-editor.org/rfc/rfc1034'],
@@ -253,7 +253,11 @@ if (!state.migratedDatedQuestions) {
   state.migratedDatedQuestions = true;
 }
 // 每个练习日首次生成的基础题目在本机固定，避免题库扩充影响已开始的作答。
+const freshPaper=questions.map(q=>({...q}));
 state.dailyPapers ||= {};
+const savedPaper=state.dailyPapers[QUIZ_DATE];
+if(Array.isArray(savedPaper) && savedPaper.length<freshPaper.length && !state.submittedDays[QUIZ_DATE] &&
+   !savedPaper.some(q=>Object.hasOwn(state.answers,q.id)))state.dailyPapers[QUIZ_DATE]=freshPaper.map(q=>({...q}));
 if (Array.isArray(state.dailyPapers[QUIZ_DATE])) {
   questions = state.dailyPapers[QUIZ_DATE].map(q => ({...q}));
 } else {
@@ -315,6 +319,24 @@ function renderQuestionNavigation() {
     answerCardOpen=false;renderQuestionNavigation();
     target.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'start'});
     target.focus({preventScroll:true});
+  });
+}
+function updateAnswerProgress(){
+  const nav=document.querySelector('#questionNav');
+  const list=view==='practice'?questions:Object.values(state.wrong).filter(q=>q && typeof q==='object' && q.id);
+  const byId=new Map(list.map(q=>[q.id,q]));
+  const answered=list.filter(hasAnswer).length;
+  nav.querySelector('.nav-heading small').textContent=answered+' / '+list.length;
+  nav.querySelector('.nav-toggle span').textContent='已答 '+answered+' / '+list.length+' · '+(answerCardOpen?'收起 ▾':'展开 ▴');
+  const progress=nav.querySelector('.nav-progress');
+  progress.setAttribute('aria-valuenow',answered);
+  progress.querySelector('span').style.width=(list.length?Math.round(answered/list.length*100):0)+'%';
+  nav.querySelectorAll('[data-jump]').forEach(button=>{
+    const q=byId.get(button.dataset.jump);
+    if(!q)return;
+    const done=hasAnswer(q);
+    button.classList.toggle('answered',done);
+    button.setAttribute('aria-label',button.getAttribute('aria-label').replace(/，(已答|未答)$/,'，'+(done?'已答':'未答')));
   });
 }
 
@@ -386,8 +408,8 @@ function render() {
   const selected = view === 'practice' ? questions : Object.values(state.wrong).filter(q => q && typeof q === 'object' && q.id);
   const objective = questions.filter(q => grade(q) !== null), correct = objective.filter(q => grade(q)).length;
   app.innerHTML = `<div class="stats"><span class="pill">${view === 'practice' ? '共 ' + questions.length + ' 题' : '错题 ' + selected.length + ' 题'}</span><span class="pill">${state.submittedDays[QUIZ_DATE] ? '客观题 ' + correct + ' / ' + objective.length : '作答自动保存'}</span><span class="pill">主观题可选 AI 评阅</span>${view === 'practice' ? '<span class="pill">本套错题复练 ' + state.dailyReviews[QUIZ_DATE].length + ' 题</span>' : ''}</div>${selected.length ? selected.map((q,i) => card(q,i)).join('') : '<div class="empty">还没有错题，开始练习吧。</div>'}${view === 'practice' ? '<div class="actions"><button class="primary" id="submit">提交并查看答案</button><button id="reset">重新练习</button></div>' : ''}`;
-  app.querySelectorAll('input[type=radio]').forEach(el => el.onchange = () => { state.answers[el.name] = el.value; save(); renderQuestionNavigation(); });
-  app.querySelectorAll('[data-id]').forEach(el => el.oninput = () => { state.answers[el.dataset.id] = el.value; save(); renderQuestionNavigation(); });
+  app.querySelectorAll('input[type=radio]').forEach(el => el.onchange = () => { state.answers[el.name] = el.value; save(); updateAnswerProgress(); });
+  app.querySelectorAll('[data-id]').forEach(el => el.oninput = () => { state.answers[el.dataset.id] = el.value; save(); updateAnswerProgress(); });
   app.querySelectorAll('[data-mark]').forEach(el => el.onclick = () => { const id = el.dataset.mark; if (state.wrong[id]) delete state.wrong[id]; else { const q = [...questions,...Object.values(state.wrong)].find(x => x.id === id); if (q) archive(q); } save(); render(); });
   app.querySelectorAll('[data-ai-grade]').forEach(el=>el.onclick=()=>requestAiGrade(el.dataset.aiGrade));
   app.querySelectorAll('[data-remove]').forEach(el => el.onclick = () => { delete state.wrong[el.dataset.remove]; save(); render(); });
@@ -409,6 +431,45 @@ document.querySelector('#downloadBank').onclick=()=>{
 };
 
 render();
-window.practiceApp={key:KEY,getState:()=>state,applyCloudState(next){localStorage.setItem(KEY,JSON.stringify(next));location.reload();}};
+let cloudRenderPending=false;
+function applyCloudState(next){
+  localStorage.setItem(KEY,JSON.stringify(next));
+  state=next;
+  state.answers ||= {};
+  state.wrong ||= {};
+  state.aiGrades ||= {};
+  state.submittedDays ||= {};
+  state.dailyPapers ||= {};
+  state.dailyReviews ||= {};
+  state.reviewHistory ||= {};
+  const savedPaper=state.dailyPapers[QUIZ_DATE];
+  if(Array.isArray(savedPaper) && savedPaper.length<freshPaper.length && !state.submittedDays[QUIZ_DATE] &&
+     !savedPaper.some(q=>Object.hasOwn(state.answers,q.id)))state.dailyPapers[QUIZ_DATE]=freshPaper.map(q=>({...q}));
+  if(Array.isArray(state.dailyPapers[QUIZ_DATE])){
+    questions=state.dailyPapers[QUIZ_DATE].map(q=>({...q}));
+    for(const q of state.dailyReviews[QUIZ_DATE] || []){
+      const index=questions.findLastIndex(item=>item.type===q.type && !item.reviewOf);
+      if(index>=0)questions[index]=q;
+    }
+  }
+  cloudRenderPending=true;
+  if(!document.activeElement?.matches('textarea[data-id],input[data-id]')){
+    const scrollY=window.scrollY;
+    render();
+    window.scrollTo(0,scrollY);
+    cloudRenderPending=false;
+  }
+}
+document.querySelector('#app').addEventListener('focusout',()=>{
+  if(!cloudRenderPending)return;
+  setTimeout(()=>{
+    if(!cloudRenderPending || document.activeElement?.matches('textarea[data-id],input[data-id],button'))return;
+    const scrollY=window.scrollY;
+    render();
+    window.scrollTo(0,scrollY);
+    cloudRenderPending=false;
+  },500);
+});
+window.practiceApp={key:KEY,getState:()=>state,applyCloudState};
 
 </script><script src="sync-config.js"></script><script src="cloud-sync.js?v=ai20261019"></script><script src="ai-grader.js?v=ai20261019"></script></body></html>
