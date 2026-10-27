@@ -26,8 +26,11 @@
 .question-number:hover{background:#edf5ec;border-color:#93bea0;transform:translateY(-2px);box-shadow:0 3px 7px #235e4b1b}
 .question-number.answered{background:#d9eddf;border-color:#abd1b5;color:#1d6042;box-shadow:inset 0 0 0 1px #ffffff94}
 .question-number.answered:hover{background:#c7e5d1;border-color:#70ad83}
+.question-number.wrong,.question-number.wrong:hover{background:#fbe2df;border-color:#d9756b;color:#9a332b;box-shadow:inset 0 0 0 1px #fff7f5}
+.legend-dot.wrong{background:#edaca5;border-color:#d9756b}
 .question-number:focus-visible{outline:2px solid #c58a33;outline-offset:2px}
 .question-nav .nav-footnote{font-size:11px;color:#869989;margin:8px 0 0}
+.mistake-heading{margin:24px 0 10px;font-size:17px;color:#265541}
 @media(min-width:1100px){.question-nav{right:calc((100vw - 1060px)/2);top:calc(var(--site-header-height, 176px) + 16px);max-height:calc(100dvh - var(--site-header-height, 176px) - 32px)}}
 @media(max-width:1099px){.question-nav{width:auto;padding:0;border-radius:18px;max-height:60dvh}.nav-heading{display:none}.nav-toggle{padding:14px 17px;gap:12px;color:#214b3b}.nav-toggle strong{font-size:14px}.nav-toggle span{font-size:12px;color:#60806b}.nav-body{padding:0 17px 14px;max-height:45dvh}.nav-progress{margin-top:3px}.number-grid{grid-template-columns:repeat(auto-fill,minmax(32px,1fr))}}
 
@@ -273,7 +276,7 @@ if (!Object.prototype.hasOwnProperty.call(state.dailyReviews, QUIZ_DATE)) {
   const started = !!state.submittedDays[QUIZ_DATE] || questions.some(q => Object.prototype.hasOwnProperty.call(state.answers, q.id));
   const capacity = {};
   questions.forEach(q => { capacity[q.type] = (capacity[q.type] || 0) + 1; });
-  const available = Object.values(state.wrong).filter(q => q && typeof q === 'object' && q.id && q.id.split('|')[0] < QUIZ_DATE && capacity[q.type]);
+  const available = wrongEntries().filter(q => q.id.split('|')[0] < QUIZ_DATE && capacity[q.type]);
   available.sort((a,b) => (state.reviewHistory[a.reviewOf || a.id] || '').localeCompare(state.reviewHistory[b.reviewOf || b.id] || ''));
   const picked = [], seen = new Set();
   if (!started) for (const q of available) {
@@ -310,15 +313,41 @@ function hasAnswer(q) {
   const value=state.answers[q.id];
   return value!==undefined && value!==null && String(value).trim()!=='';
 }
+function wrongIdentity(q){return q.type+'\u0000'+String(q.q||'').normalize('NFKC').replace(/\s+/g,'').toLowerCase();}
+function wrongEntries(){
+  const order=['选择题','填空题','简答题','编程题'];
+  const unique=new Map();
+  for(const q of Object.values(state.wrong)){
+    if(!q || typeof q!=='object' || !q.id || !q.q || !q.type)continue;
+    const key=wrongIdentity(q),previous=unique.get(key);
+    if(!previous || String(q.id)>String(previous.id))unique.set(key,q);
+  }
+  return [...unique.values()].sort((a,b)=>{
+    const typeDifference=order.indexOf(a.type)-order.indexOf(b.type);
+    return typeDifference || String(b.id).localeCompare(String(a.id));
+  });
+}
+function removeWrongCopies(q){
+  const identity=wrongIdentity(q);
+  for(const [id,item] of Object.entries(state.wrong))if(item && wrongIdentity(item)===identity)delete state.wrong[id];
+}
+function navOutcome(q){
+  if(view!=='practice' || !state.submittedDays[QUIZ_DATE])return hasAnswer(q)?'answered':'unanswered';
+  const objective=grade(q);
+  if(objective!==null)return objective?'answered':'wrong';
+  const review=state.aiGrades[q.id];
+  if(review && review.answer===String(state.answers[q.id]??'').trim())return review.verdict==='correct'?'answered':'wrong';
+  return state.wrong[q.id]?'wrong':hasAnswer(q)?'answered':'unanswered';
+}
 function renderQuestionNavigation() {
   const nav=document.querySelector('#questionNav');
-  const list=view==='practice'?questions:Object.values(state.wrong).filter(q=>q && typeof q==='object' && q.id);
+  const list=view==='practice'?questions:wrongEntries();
   const answered=list.filter(hasAnswer).length;
   const groups=[['选择题','选择'],['填空题','填空'],['简答题','主观题'],['编程题','程序']];
   nav.classList.toggle('open',answerCardOpen);
-  nav.innerHTML='<div class="nav-heading"><span class="nav-eyebrow">QUICK NAVIGATION</span><h2>答题卡 <small>'+answered+' / '+list.length+'</small></h2></div><button type="button" class="nav-toggle" id="answerCardToggle" aria-expanded="'+answerCardOpen+'" aria-controls="answerCardBody"><strong>答题卡</strong><span>已答 '+answered+' / '+list.length+' · '+(answerCardOpen?'收起 ▾':'展开 ▴')+'</span></button><div id="answerCardBody" class="nav-body"><div class="nav-progress" role="progressbar" aria-label="已答进度" aria-valuemin="0" aria-valuemax="'+list.length+'" aria-valuenow="'+answered+'"><span style="width:'+(list.length?Math.round(answered/list.length*100):0)+'%"></span></div><p class="nav-legend"><span class="legend-dot"></span>未答 <span class="legend-dot answered"></span>已答</p>'+groups.map(([type,title])=>{
+  nav.innerHTML='<div class="nav-heading"><span class="nav-eyebrow">QUICK NAVIGATION</span><h2>答题卡 <small>'+answered+' / '+list.length+'</small></h2></div><button type="button" class="nav-toggle" id="answerCardToggle" aria-expanded="'+answerCardOpen+'" aria-controls="answerCardBody"><strong>答题卡</strong><span>已答 '+answered+' / '+list.length+' · '+(answerCardOpen?'收起 ▾':'展开 ▴')+'</span></button><div id="answerCardBody" class="nav-body"><div class="nav-progress" role="progressbar" aria-label="已答进度" aria-valuemin="0" aria-valuemax="'+list.length+'" aria-valuenow="'+answered+'"><span style="width:'+(list.length?Math.round(answered/list.length*100):0)+'%"></span></div><p class="nav-legend"><span class="legend-dot"></span>未答 <span class="legend-dot answered"></span>已答 <span class="legend-dot wrong"></span>提交后错误</p>'+groups.map(([type,title])=>{
     const entries=list.map((q,i)=>({q,number:i+1})).filter(item=>item.q.type===type);
-    return entries.length?'<section class="nav-group"><h3>'+title+' <small>'+entries.length+' 题</small></h3><div class="number-grid">'+entries.map(({q,number})=>'<button type="button" class="question-number'+(hasAnswer(q)?' answered':'')+'" data-jump="'+esc(q.id)+'" aria-label="第'+number+'题，'+title+'，'+(hasAnswer(q)?'已答':'未答')+'">'+number+'</button>').join('')+'</div></section>':'';
+    return entries.length?'<section class="nav-group"><h3>'+title+' <small>'+entries.length+' 题</small></h3><div class="number-grid">'+entries.map(({q,number})=>{const outcome=navOutcome(q);return '<button type="button" class="question-number'+(outcome==='unanswered'?'':' '+outcome)+'" data-jump="'+esc(q.id)+'" aria-label="第'+number+'题，'+title+'，'+(outcome==='wrong'?'回答错误':outcome==='answered'?'已答':'未答')+'">'+number+'</button>'}).join('')+'</div></section>':'';
   }).join('')+'<p class="hint nav-footnote">已答表示已填写，不代表正确。</p></div>';
   document.querySelector('#answerCardToggle').onclick=()=>{answerCardOpen=!answerCardOpen;renderQuestionNavigation();};
   nav.querySelectorAll('[data-jump]').forEach(button=>button.onclick=()=>{
@@ -331,7 +360,7 @@ function renderQuestionNavigation() {
 }
 function updateAnswerProgress(){
   const nav=document.querySelector('#questionNav');
-  const list=view==='practice'?questions:Object.values(state.wrong).filter(q=>q && typeof q==='object' && q.id);
+  const list=view==='practice'?questions:wrongEntries();
   const byId=new Map(list.map(q=>[q.id,q]));
   const answered=list.filter(hasAnswer).length;
   nav.querySelector('.nav-heading small').textContent=answered+' / '+list.length;
@@ -342,9 +371,10 @@ function updateAnswerProgress(){
   nav.querySelectorAll('[data-jump]').forEach(button=>{
     const q=byId.get(button.dataset.jump);
     if(!q)return;
-    const done=hasAnswer(q);
-    button.classList.toggle('answered',done);
-    button.setAttribute('aria-label',button.getAttribute('aria-label').replace(/，(已答|未答)$/,'，'+(done?'已答':'未答')));
+    const outcome=navOutcome(q);
+    button.classList.toggle('answered',outcome==='answered');
+    button.classList.toggle('wrong',outcome==='wrong');
+    button.setAttribute('aria-label',button.getAttribute('aria-label').replace(/，(已答|未答|回答错误)$/,'，'+(outcome==='wrong'?'回答错误':outcome==='answered'?'已答':'未答')));
   });
 }
 
@@ -360,7 +390,7 @@ function grade(q) {
   if (q.type === '填空题') return q.answer.some(x => norm(x) === norm(a));
   return null;
 }
-function archive(q) { state.wrong[q.id] = {...q}; }
+function archive(q) { removeWrongCopies(q); state.wrong[q.id] = {...q}; }
 const aiBusy=new Set();
 const aiErrors={};
 function aiPanel(q){
@@ -379,7 +409,7 @@ function aiPanel(q){
   return html;
 }
 async function requestAiGrade(id){
-  const q=[...questions,...Object.values(state.wrong)].find(item=>item?.id===id);
+  const q=[...questions,...wrongEntries()].find(item=>item?.id===id);
   if(!q || grade(q)!==null || aiBusy.has(id))return;
   const answer=String(state.answers[id]??'').trim();
   if(!answer){aiErrors[id]='请先填写答案。';render();return;}
@@ -413,14 +443,14 @@ function card(q, i) {
 function render() {
   document.querySelector('#practiceTab').classList.toggle('active', view === 'practice');
   document.querySelector('#mistakeTab').classList.toggle('active', view === 'mistakes');
-  const selected = view === 'practice' ? questions : Object.values(state.wrong).filter(q => q && typeof q === 'object' && q.id);
+  const selected = view === 'practice' ? questions : wrongEntries();
   const objective = questions.filter(q => grade(q) !== null), correct = objective.filter(q => grade(q)).length;
-  app.innerHTML = `<div class="stats"><span class="pill">${view === 'practice' ? '共 ' + questions.length + ' 题' : '错题 ' + selected.length + ' 题'}</span><span class="pill">${state.submittedDays[QUIZ_DATE] ? '客观题 ' + correct + ' / ' + objective.length : '作答自动保存'}</span><span class="pill">主观题可选 AI 评阅</span>${view === 'practice' ? '<span class="pill">本套错题复练 ' + state.dailyReviews[QUIZ_DATE].length + ' 题</span>' : ''}</div>${selected.length ? selected.map((q,i) => card(q,i)).join('') : '<div class="empty">还没有错题，开始练习吧。</div>'}${view === 'practice' ? '<div class="actions"><button class="primary" id="submit">提交并查看答案</button><button id="reset">重新练习</button></div>' : ''}`;
+  app.innerHTML = `<div class="stats"><span class="pill">${view === 'practice' ? '共 ' + questions.length + ' 题' : '错题 ' + selected.length + ' 题'}</span><span class="pill">${state.submittedDays[QUIZ_DATE] ? '客观题 ' + correct + ' / ' + objective.length : '作答自动保存'}</span><span class="pill">主观题可选 AI 评阅</span>${view === 'practice' ? '<span class="pill">本套错题复练 ' + state.dailyReviews[QUIZ_DATE].length + ' 题</span>' : ''}</div>${selected.length ? selected.map((q,i) => (view==='mistakes' && (i===0 || selected[i-1].type!==q.type)?'<h2 class="mistake-heading">'+esc(q.type)+'</h2>':'')+card(q,i)).join('') : '<div class="empty">还没有错题，开始练习吧。</div>'}${view === 'practice' ? '<div class="actions"><button class="primary" id="submit">提交并查看答案</button><button id="reset">重新练习</button></div>' : ''}`;
   app.querySelectorAll('input[type=radio]').forEach(el => el.onchange = () => { state.answers[el.name] = el.value; save(); updateAnswerProgress(); });
   app.querySelectorAll('[data-id]').forEach(el => el.oninput = () => { state.answers[el.dataset.id] = el.value; save(); updateAnswerProgress(); });
-  app.querySelectorAll('[data-mark]').forEach(el => el.onclick = () => { const id = el.dataset.mark; if (state.wrong[id]) delete state.wrong[id]; else { const q = [...questions,...Object.values(state.wrong)].find(x => x.id === id); if (q) archive(q); } save(); render(); });
+  app.querySelectorAll('[data-mark]').forEach(el => el.onclick = () => { const id = el.dataset.mark; const q = [...questions,...wrongEntries()].find(x => x.id === id); if(q){if(state.wrong[id])removeWrongCopies(q); else archive(q);} save(); render(); });
   app.querySelectorAll('[data-ai-grade]').forEach(el=>el.onclick=()=>requestAiGrade(el.dataset.aiGrade));
-  app.querySelectorAll('[data-remove]').forEach(el => el.onclick = () => { delete state.wrong[el.dataset.remove]; save(); render(); });
+  app.querySelectorAll('[data-remove]').forEach(el => el.onclick = () => { const q=wrongEntries().find(item=>item.id===el.dataset.remove); if(q)removeWrongCopies(q); save(); render(); });
   const submit = document.querySelector('#submit');
   if (submit) submit.onclick = () => { state.submittedDays[QUIZ_DATE] = true; questions.forEach(q => { if (grade(q) === false) archive(q); }); save(); render(); window.scrollTo({top:0,behavior:'smooth'}); };
   const reset = document.querySelector('#reset');
@@ -480,7 +510,7 @@ document.querySelector('#app').addEventListener('focusout',()=>{
 });
 window.practiceApp={key:KEY,getState:()=>state,applyCloudState};
 
-</script><script src="sync-config.js"></script><script src="cloud-sync.js?v=ai20261019"></script><script src="ai-grader.js?v=ai20261019"></script></body></html>
+</script><script src="sync-config.js"></script><script src="cloud-sync.js?v=20261027"></script><script src="ai-grader.js?v=ai20261019"></script></body></html>
 
 
 
