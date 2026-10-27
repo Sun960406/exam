@@ -47,6 +47,7 @@
     const response=await fetch(base+path,{method,headers:{apikey:key,Authorization:'Bearer '+(authenticated?session.access_token:key),
       ...(body?{'Content-Type':'application/json'}:{}),...headers},body:body?JSON.stringify(body):undefined});
     const result=response.status===204?null:await response.json().catch(()=>null);
+    if(response.status===540)throw new Error('云同步项目已暂停。请在 Supabase 控制台恢复该项目；本机作答仍会保存。');
     if(!response.ok)throw new Error(result?.msg || result?.message || result?.error_description || result?.error || '请求失败（'+response.status+'）');
     return result;
   }
@@ -226,3 +227,4 @@
   addEventListener('focus',resume);
   addEventListener('online',resume);
 })();
+
