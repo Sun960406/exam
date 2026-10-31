@@ -228,11 +228,606 @@ var BANK_LOAD_FAILED=false;
 </script><script>var REVISION_BANK_LOAD_FAILED=false;</script><script src="revision-bank.js" onerror="REVISION_BANK_LOAD_FAILED=true"></script><script>
 let questions=[...(typeof scopeChoiceSelection==='function'?scopeChoiceSelection(dayNumber):cycle(choices,20,dayNumber*20)).map(([x,i])=>{ const shift = i < 30 ? 0 : i % 4; return {id:'c'+i,type:'选择题',q:x[0],options:[...x[1].slice(shift),...x[1].slice(0,shift)],answer:(x[2]-shift+4)%4,explain:x[3],source:x[4] || '原创练习',module:x[6] || '学科专业知识'}; }),...(typeof scopeFillSelection==='function'?scopeFillSelection(dayNumber):cycle(fills,5,dayNumber*5)).map(([x,i])=>({id:'f'+i,type:'填空题',q:x[0],answer:x[1],explain:x[2],source:x[3] || '原创练习',module:x[5] || '学科专业知识'})),...(typeof scopeEssaySelection==='function'?scopeEssaySelection(dayNumber):cycle(essays,3,dayNumber*3)).map(([x,i])=>({id:'s'+i,type:'简答题',q:x[0],answer:x[1],source:x[2] || '原创练习',module:x[3] || '简答题'})),...cycle(programs,2,dayNumber*2).map(([x,i])=>({id:'p'+i,type:'编程题',q:x[0],answer:x[1],source:x[2] || '原创练习'}))];
 const concepts = [
-  ['卷积神经网络（CNN）','卷积神经网络常用于图像识别等任务。卷积核处理局部区域，多层网络逐步组合特征；训练会调整模型参数。教学中可讨论数据质量和隐私。','VGG 卷积神经网络论文','https://arxiv.org/abs/1409.1556'],
-  ['域名系统（DNS）','DNS 是分层的命名系统，可以帮助客户端查询域名对应的网络地址。访问网站时，通常先查询域名，再与相应服务器建立连接。','互联网工程任务组 DNS 标准','https://www.rfc-editor.org/rfc/rfc1034'],
-  ['数据库主键','主键用于唯一标识关系表中的记录，主键值不能重复或为空。设计学生表时，可使用学号作为主键，并考虑其稳定性。','PostgreSQL 主键文档','https://www.postgresql.org/docs/current/ddl-constraints.html'],
-  ['二分查找','二分查找利用数据按关键字排序的条件，每次比较中间位置并缩小范围。针对长度为 n 的有序序列，其最坏比较次数随 log n 增长。','Python 二分查找文档','https://docs.python.org/3/library/bisect.html'],
-  ['算法','算法是为解决问题而设计的明确步骤。教学中应说明输入、输出和步骤，并检查算法能否在有限步骤内终止。','教育部普通高中课程标准通知','https://www.moe.gov.cn/srcsite/A26/s8001/202006/t20200603_462199.html']
+  [
+    "信息与数据",
+    "数据是可记录、可处理的符号；信息是数据在具体情境中表达的意义。",
+    "教育部普通高中课程标准通知",
+    "https://www.moe.gov.cn/srcsite/A26/s8001/202006/t20200603_462199.html"
+  ],
+  [
+    "二进制",
+    "二进制只用 0 和 1 表示数，计算机常以二进制编码和处理数据。",
+    "教育部普通高中课程标准通知",
+    "https://www.moe.gov.cn/srcsite/A26/s8001/202006/t20200603_462199.html"
+  ],
+  [
+    "位与字节",
+    "1 字节等于 8 位；文件大小常用字节及其倍数表示。",
+    "教育部普通高中课程标准通知",
+    "https://www.moe.gov.cn/srcsite/A26/s8001/202006/t20200603_462199.html"
+  ],
+  [
+    "数制转换",
+    "二进制转十进制可按各位权值求和；十进制转二进制可连续除以 2 取余。",
+    "教育部普通高中课程标准通知",
+    "https://www.moe.gov.cn/srcsite/A26/s8001/202006/t20200603_462199.html"
+  ],
+  [
+    "十六进制",
+    "一位十六进制数对应四位二进制数，常用于简写二进制数据。",
+    "教育部普通高中课程标准通知",
+    "https://www.moe.gov.cn/srcsite/A26/s8001/202006/t20200603_462199.html"
+  ],
+  [
+    "补码",
+    "有符号整数常用补码表示；在固定字长下，运算结果可能溢出。",
+    "教育部普通高中课程标准通知",
+    "https://www.moe.gov.cn/srcsite/A26/s8001/202006/t20200603_462199.html"
+  ],
+  [
+    "字符编码",
+    "字符编码规定字符与数字编码的对应关系，解释文本时应使用正确编码。",
+    "教育部普通高中课程标准通知",
+    "https://www.moe.gov.cn/srcsite/A26/s8001/202006/t20200603_462199.html"
+  ],
+  [
+    "Unicode",
+    "Unicode 为多种文字分配统一码点；UTF-8 是常见的编码实现方式。",
+    "教育部普通高中课程标准通知",
+    "https://www.moe.gov.cn/srcsite/A26/s8001/202006/t20200603_462199.html"
+  ],
+  [
+    "ASCII",
+    "ASCII 是早期字符编码标准，包含英文字母、数字和控制字符。",
+    "教育部普通高中课程标准通知",
+    "https://www.moe.gov.cn/srcsite/A26/s8001/202006/t20200603_462199.html"
+  ],
+  [
+    "图像像素",
+    "位图由像素组成；像素数量影响图像细节和存储量。",
+    "教育部普通高中课程标准通知",
+    "https://www.moe.gov.cn/srcsite/A26/s8001/202006/t20200603_462199.html"
+  ],
+  [
+    "图像分辨率",
+    "图像宽高的像素数描述尺寸；显示尺寸变化不一定改变像素数。",
+    "教育部普通高中课程标准通知",
+    "https://www.moe.gov.cn/srcsite/A26/s8001/202006/t20200603_462199.html"
+  ],
+  [
+    "色彩深度",
+    "色彩深度表示每个像素可用的编码位数，影响可表示的颜色数量。",
+    "教育部普通高中课程标准通知",
+    "https://www.moe.gov.cn/srcsite/A26/s8001/202006/t20200603_462199.html"
+  ],
+  [
+    "音频采样",
+    "数字音频通过按时间采样和量化获得；采样率越高，单位时间采样点越多。",
+    "教育部普通高中课程标准通知",
+    "https://www.moe.gov.cn/srcsite/A26/s8001/202006/t20200603_462199.html"
+  ],
+  [
+    "有损压缩",
+    "有损压缩会舍弃部分信息以减小文件，恢复时不能完全还原原始数据。",
+    "教育部普通高中课程标准通知",
+    "https://www.moe.gov.cn/srcsite/A26/s8001/202006/t20200603_462199.html"
+  ],
+  [
+    "无损压缩",
+    "无损压缩允许解压后精确恢复原始数据，适合文本和源代码。",
+    "教育部普通高中课程标准通知",
+    "https://www.moe.gov.cn/srcsite/A26/s8001/202006/t20200603_462199.html"
+  ],
+  [
+    "冯·诺依曼结构",
+    "存储程序思想使指令和数据存放在存储器中，由处理器执行指令。",
+    "教育部普通高中课程标准通知",
+    "https://www.moe.gov.cn/srcsite/A26/s8001/202006/t20200603_462199.html"
+  ],
+  [
+    "中央处理器",
+    "CPU 执行指令并协调运算与控制；性能不能仅用主频判断。",
+    "教育部普通高中课程标准通知",
+    "https://www.moe.gov.cn/srcsite/A26/s8001/202006/t20200603_462199.html"
+  ],
+  [
+    "主存与外存",
+    "主存供运行中的程序直接使用；外存主要用于长期保存数据。",
+    "教育部普通高中课程标准通知",
+    "https://www.moe.gov.cn/srcsite/A26/s8001/202006/t20200603_462199.html"
+  ],
+  [
+    "缓存",
+    "缓存保存近期或常用数据，以减少访问较慢存储层的次数。",
+    "教育部普通高中课程标准通知",
+    "https://www.moe.gov.cn/srcsite/A26/s8001/202006/t20200603_462199.html"
+  ],
+  [
+    "操作系统",
+    "操作系统管理硬件资源，并为程序运行和用户操作提供服务。",
+    "教育部普通高中课程标准通知",
+    "https://www.moe.gov.cn/srcsite/A26/s8001/202006/t20200603_462199.html"
+  ],
+  [
+    "进程",
+    "进程是运行中的程序实例，具有独立的运行状态和资源。",
+    "教育部普通高中课程标准通知",
+    "https://www.moe.gov.cn/srcsite/A26/s8001/202006/t20200603_462199.html"
+  ],
+  [
+    "线程",
+    "线程是进程内的执行单元；多个线程可共享所在进程的部分资源。",
+    "教育部普通高中课程标准通知",
+    "https://www.moe.gov.cn/srcsite/A26/s8001/202006/t20200603_462199.html"
+  ],
+  [
+    "文件系统",
+    "文件系统组织文件和目录，并记录位置、权限等信息。",
+    "教育部普通高中课程标准通知",
+    "https://www.moe.gov.cn/srcsite/A26/s8001/202006/t20200603_462199.html"
+  ],
+  [
+    "算法输入输出",
+    "算法可以接收输入并产生输出；分析时要明确输入范围和结果形式。",
+    "教育部普通高中课程标准通知",
+    "https://www.moe.gov.cn/srcsite/A26/s8001/202006/t20200603_462199.html"
+  ],
+  [
+    "算法有穷性",
+    "算法应在有限步骤内结束，不能无限执行而没有终止条件。",
+    "教育部普通高中课程标准通知",
+    "https://www.moe.gov.cn/srcsite/A26/s8001/202006/t20200603_462199.html"
+  ],
+  [
+    "顺序结构",
+    "顺序结构按规定次序执行语句，是程序控制结构之一。",
+    "Python 官方教程",
+    "https://docs.python.org/3/tutorial/"
+  ],
+  [
+    "分支结构",
+    "分支结构根据条件选择执行路径，常用 if 等语句实现。",
+    "Python 官方教程",
+    "https://docs.python.org/3/tutorial/"
+  ],
+  [
+    "循环结构",
+    "循环结构重复执行一组操作，需要关注循环条件和边界。",
+    "Python 官方教程",
+    "https://docs.python.org/3/tutorial/"
+  ],
+  [
+    "变量",
+    "变量用名称关联一个值；执行赋值后，其当前值可能改变。",
+    "Python 官方教程",
+    "https://docs.python.org/3/tutorial/"
+  ],
+  [
+    "函数",
+    "函数将一组操作封装为可调用单元，可通过参数接收输入。",
+    "Python 官方教程",
+    "https://docs.python.org/3/tutorial/"
+  ],
+  [
+    "递归",
+    "递归函数调用自身，通常需要清晰的终止条件和规模缩减。",
+    "Python 官方教程",
+    "https://docs.python.org/3/tutorial/"
+  ],
+  [
+    "列表",
+    "列表按顺序保存多个元素，可按索引访问和修改。",
+    "Python 官方教程",
+    "https://docs.python.org/3/tutorial/"
+  ],
+  [
+    "字典",
+    "字典按键查找对应的值，适合表示属性与值的映射。",
+    "Python 官方教程",
+    "https://docs.python.org/3/tutorial/"
+  ],
+  [
+    "栈",
+    "栈遵循后进先出，常用于函数调用和括号匹配。",
+    "Python 官方教程",
+    "https://docs.python.org/3/tutorial/"
+  ],
+  [
+    "队列",
+    "队列遵循先进先出，常用于任务排队和广度优先搜索。",
+    "Python 官方教程",
+    "https://docs.python.org/3/tutorial/"
+  ],
+  [
+    "线性查找",
+    "线性查找逐项比较；即使数据未排序也可以使用。",
+    "Python 官方教程",
+    "https://docs.python.org/3/tutorial/"
+  ],
+  [
+    "排序算法",
+    "排序按关键字重新排列数据，比较算法时要关注时间和空间代价。",
+    "Python 官方教程",
+    "https://docs.python.org/3/tutorial/"
+  ],
+  [
+    "冒泡排序",
+    "冒泡排序反复比较相邻元素并交换逆序项，适合入门理解排序过程。",
+    "Python 官方教程",
+    "https://docs.python.org/3/tutorial/"
+  ],
+  [
+    "选择排序",
+    "选择排序每轮选出一个最小或最大元素，放到目标位置。",
+    "Python 官方教程",
+    "https://docs.python.org/3/tutorial/"
+  ],
+  [
+    "时间复杂度",
+    "时间复杂度描述输入规模增长时操作次数的变化趋势。",
+    "Python 官方教程",
+    "https://docs.python.org/3/tutorial/"
+  ],
+  [
+    "空间复杂度",
+    "空间复杂度描述算法额外存储需求随输入规模的变化趋势。",
+    "Python 官方教程",
+    "https://docs.python.org/3/tutorial/"
+  ],
+  [
+    "边界条件",
+    "边界条件包括空输入、最小规模和最大值等，常能暴露程序错误。",
+    "Python 官方教程",
+    "https://docs.python.org/3/tutorial/"
+  ],
+  [
+    "单元测试",
+    "单元测试检验较小程序单元的行为，应包含正常和边界样例。",
+    "Python 官方教程",
+    "https://docs.python.org/3/tutorial/"
+  ],
+  [
+    "调试",
+    "调试通过复现、定位、修改和复测来解决程序错误。",
+    "Python 官方教程",
+    "https://docs.python.org/3/tutorial/"
+  ],
+  [
+    "抽象",
+    "抽象保留与目标相关的特征，忽略无关细节以建立模型。",
+    "Python 官方教程",
+    "https://docs.python.org/3/tutorial/"
+  ],
+  [
+    "分解",
+    "分解把复杂问题拆成较小、可处理的子问题。",
+    "Python 官方教程",
+    "https://docs.python.org/3/tutorial/"
+  ],
+  [
+    "模式识别",
+    "模式识别寻找多个问题或数据中的共同规律，帮助复用解决方法。",
+    "Python 官方教程",
+    "https://docs.python.org/3/tutorial/"
+  ],
+  [
+    "算法设计",
+    "算法设计先明确问题、输入输出和约束，再选择步骤与数据结构。",
+    "Python 官方教程",
+    "https://docs.python.org/3/tutorial/"
+  ],
+  [
+    "数据结构",
+    "数据结构组织数据及其关系，影响访问和修改的效率。",
+    "Python 官方教程",
+    "https://docs.python.org/3/tutorial/"
+  ],
+  [
+    "局域网",
+    "局域网通常覆盖较小区域，如教室、校园或办公室。",
+    "Python 官方教程",
+    "https://docs.python.org/3/tutorial/"
+  ],
+  [
+    "IP 地址",
+    "IP 地址用于网络层寻址；设备通信还需结合路由等机制。",
+    "IETF RFC 索引",
+    "https://www.rfc-editor.org/rfc-index.html"
+  ],
+  [
+    "IPv4",
+    "IPv4 地址由 32 位构成，常写成四个十进制数。",
+    "IETF RFC 索引",
+    "https://www.rfc-editor.org/rfc-index.html"
+  ],
+  [
+    "IPv6",
+    "IPv6 地址由 128 位构成，通常以十六进制分组表示。",
+    "IETF RFC 索引",
+    "https://www.rfc-editor.org/rfc-index.html"
+  ],
+  [
+    "子网掩码",
+    "子网掩码用于区分 IPv4 地址中的网络部分和主机部分。",
+    "IETF RFC 索引",
+    "https://www.rfc-editor.org/rfc-index.html"
+  ],
+  [
+    "路由器",
+    "路由器根据目的网络选择转发路径，连接不同网络。",
+    "IETF RFC 索引",
+    "https://www.rfc-editor.org/rfc-index.html"
+  ],
+  [
+    "交换机",
+    "以太网交换机根据 MAC 地址转发局域网内的数据帧。",
+    "IETF RFC 索引",
+    "https://www.rfc-editor.org/rfc-index.html"
+  ],
+  [
+    "TCP",
+    "TCP 提供面向连接的可靠字节流服务，使用确认与重传等机制。",
+    "IETF RFC 索引",
+    "https://www.rfc-editor.org/rfc-index.html"
+  ],
+  [
+    "UDP",
+    "UDP 提供无连接的数据报服务，不保证可靠送达或顺序。",
+    "IETF RFC 索引",
+    "https://www.rfc-editor.org/rfc-index.html"
+  ],
+  [
+    "HTTP",
+    "HTTP 定义客户端与服务器交换请求和响应的方式。",
+    "IETF RFC 索引",
+    "https://www.rfc-editor.org/rfc-index.html"
+  ],
+  [
+    "HTTPS",
+    "HTTPS 通常通过 TLS 保护 HTTP 传输，提供加密及身份验证机制。",
+    "IETF RFC 索引",
+    "https://www.rfc-editor.org/rfc-index.html"
+  ],
+  [
+    "网络延迟",
+    "延迟是数据传输到达所需的时间；带宽大不代表延迟一定低。",
+    "IETF RFC 索引",
+    "https://www.rfc-editor.org/rfc-index.html"
+  ],
+  [
+    "带宽",
+    "带宽描述通信链路可承载的数据传输能力，实际速率还受其他因素影响。",
+    "IETF RFC 索引",
+    "https://www.rfc-editor.org/rfc-index.html"
+  ],
+  [
+    "MAC 地址",
+    "MAC 地址用于链路层标识网络接口，不等同于 IP 地址。",
+    "IETF RFC 索引",
+    "https://www.rfc-editor.org/rfc-index.html"
+  ],
+  [
+    "防火墙",
+    "防火墙按规则控制网络流量，不能替代补丁和安全意识。",
+    "IETF RFC 索引",
+    "https://www.rfc-editor.org/rfc-index.html"
+  ],
+  [
+    "钓鱼攻击",
+    "钓鱼攻击伪装可信来源诱导用户泄露信息或执行危险操作。",
+    "IETF RFC 索引",
+    "https://www.rfc-editor.org/rfc-index.html"
+  ],
+  [
+    "多因素认证",
+    "多因素认证结合不同类别的凭据，可降低单一密码泄露的风险。",
+    "IETF RFC 索引",
+    "https://www.rfc-editor.org/rfc-index.html"
+  ],
+  [
+    "最小权限",
+    "最小权限原则只授予完成任务所需的权限，减少误用和攻击面。",
+    "IETF RFC 索引",
+    "https://www.rfc-editor.org/rfc-index.html"
+  ],
+  [
+    "数据备份",
+    "备份保留可恢复的数据副本；需要定期验证备份能否恢复。",
+    "IETF RFC 索引",
+    "https://www.rfc-editor.org/rfc-index.html"
+  ],
+  [
+    "哈希函数",
+    "哈希函数把输入映射为固定长度摘要，常用于完整性校验。",
+    "IETF RFC 索引",
+    "https://www.rfc-editor.org/rfc-index.html"
+  ],
+  [
+    "对称加密",
+    "对称加密的加密与解密使用同一密钥或可互推的密钥。",
+    "IETF RFC 索引",
+    "https://www.rfc-editor.org/rfc-index.html"
+  ],
+  [
+    "非对称加密",
+    "非对称加密使用公钥和私钥，可用于密钥交换与数字签名。",
+    "IETF RFC 索引",
+    "https://www.rfc-editor.org/rfc-index.html"
+  ],
+  [
+    "关系表",
+    "关系数据库用表组织数据，行代表记录，列代表属性。",
+    "IETF RFC 索引",
+    "https://www.rfc-editor.org/rfc-index.html"
+  ],
+  [
+    "主键与外键",
+    "主键唯一标识表内记录；外键用于引用另一表的键。",
+    "IETF RFC 索引",
+    "https://www.rfc-editor.org/rfc-index.html"
+  ],
+  [
+    "数据库约束",
+    "约束限制数据取值和关联关系，以维护数据完整性。",
+    "PostgreSQL 官方文档",
+    "https://www.postgresql.org/docs/current/"
+  ],
+  [
+    "SQL 查询",
+    "SELECT 从表中取出所需列，可结合条件、分组和排序。",
+    "PostgreSQL 官方文档",
+    "https://www.postgresql.org/docs/current/"
+  ],
+  [
+    "WHERE 与 HAVING",
+    "WHERE 在分组前筛选行；HAVING 在分组后筛选组。",
+    "PostgreSQL 官方文档",
+    "https://www.postgresql.org/docs/current/"
+  ],
+  [
+    "数据库连接",
+    "JOIN 按条件关联多张表，须注意一对多关系可能产生多行。",
+    "PostgreSQL 官方文档",
+    "https://www.postgresql.org/docs/current/"
+  ],
+  [
+    "数据库索引",
+    "索引可加快部分查询，但会占用空间并增加维护成本。",
+    "PostgreSQL 官方文档",
+    "https://www.postgresql.org/docs/current/"
+  ],
+  [
+    "数据库事务",
+    "事务把一组操作作为整体处理，常讨论原子性、一致性、隔离性和持久性。",
+    "PostgreSQL 官方文档",
+    "https://www.postgresql.org/docs/current/"
+  ],
+  [
+    "数据库视图",
+    "视图是基于查询定义的虚拟表，可简化查询或限制数据呈现。",
+    "PostgreSQL 官方文档",
+    "https://www.postgresql.org/docs/current/"
+  ],
+  [
+    "数据清洗",
+    "数据清洗识别并处理缺失、重复或异常数据，需保留处理依据。",
+    "PostgreSQL 官方文档",
+    "https://www.postgresql.org/docs/current/"
+  ],
+  [
+    "数据可视化",
+    "可视化用图形呈现数据关系，图形类型应与问题和数据匹配。",
+    "PostgreSQL 官方文档",
+    "https://www.postgresql.org/docs/current/"
+  ],
+  [
+    "人工智能",
+    "人工智能研究让机器完成感知、推理、生成等智能相关任务的方法。",
+    "教育部普通高中课程标准通知",
+    "https://www.moe.gov.cn/srcsite/A26/s8001/202006/t20200603_462199.html"
+  ],
+  [
+    "机器学习",
+    "机器学习通过数据训练模型，使其在未见样本上完成预测或决策。",
+    "教育部普通高中课程标准通知",
+    "https://www.moe.gov.cn/srcsite/A26/s8001/202006/t20200603_462199.html"
+  ],
+  [
+    "监督学习",
+    "监督学习使用带目标标签的数据训练模型。",
+    "Google 机器学习术语表",
+    "https://developers.google.com/machine-learning/glossary"
+  ],
+  [
+    "无监督学习",
+    "无监督学习在缺少目标标签时寻找数据结构或分组。",
+    "Google 机器学习术语表",
+    "https://developers.google.com/machine-learning/glossary"
+  ],
+  [
+    "训练集与测试集",
+    "训练集用于拟合模型；测试集用于估计模型对新数据的表现。",
+    "Google 机器学习术语表",
+    "https://developers.google.com/machine-learning/glossary"
+  ],
+  [
+    "过拟合",
+    "过拟合指模型过度适应训练数据，在新数据上表现下降。",
+    "Google 机器学习术语表",
+    "https://developers.google.com/machine-learning/glossary"
+  ],
+  [
+    "神经网络",
+    "神经网络由可学习参数和多层计算组成，训练时调整参数以降低误差。",
+    "Google 机器学习术语表",
+    "https://developers.google.com/machine-learning/glossary"
+  ],
+  [
+    "大语言模型",
+    "大语言模型通过大量文本等数据训练，生成内容仍可能包含错误。",
+    "Google 机器学习术语表",
+    "https://developers.google.com/machine-learning/glossary"
+  ],
+  [
+    "生成式人工智能",
+    "生成式人工智能可生成文本、图像或代码，使用时应核验内容与来源。",
+    "Google 机器学习术语表",
+    "https://developers.google.com/machine-learning/glossary"
+  ],
+  [
+    "物联网",
+    "物联网让设备通过传感、通信和计算交换数据并执行任务。",
+    "Google 机器学习术语表",
+    "https://developers.google.com/machine-learning/glossary"
+  ],
+  [
+    "传感器",
+    "传感器把温度、光照等物理量转换为可处理的信号。",
+    "教育部普通高中课程标准通知",
+    "https://www.moe.gov.cn/srcsite/A26/s8001/202006/t20200603_462199.html"
+  ],
+  [
+    "边缘计算",
+    "边缘计算在靠近数据产生处处理部分任务，可降低传输和响应成本。",
+    "教育部普通高中课程标准通知",
+    "https://www.moe.gov.cn/srcsite/A26/s8001/202006/t20200603_462199.html"
+  ],
+  [
+    "信息意识",
+    "信息意识强调主动发现信息需求，并判断信息的价值与可信度。",
+    "教育部普通高中课程标准通知",
+    "https://www.moe.gov.cn/srcsite/A26/s8001/202006/t20200603_462199.html"
+  ],
+  [
+    "计算思维",
+    "计算思维运用抽象、分解和算法等方法分析与解决问题。",
+    "教育部普通高中课程标准通知",
+    "https://www.moe.gov.cn/srcsite/A26/s8001/202006/t20200603_462199.html"
+  ],
+  [
+    "数字化学习与创新",
+    "数字化学习与创新强调利用数字工具开展学习、协作和创造。",
+    "教育部普通高中课程标准通知",
+    "https://www.moe.gov.cn/srcsite/A26/s8001/202006/t20200603_462199.html"
+  ],
+  [
+    "信息社会责任",
+    "信息社会责任涉及合法、合乎伦理地使用信息技术并保护隐私。",
+    "教育部普通高中课程标准通知",
+    "https://www.moe.gov.cn/srcsite/A26/s8001/202006/t20200603_462199.html"
+  ],
+  [
+    "形成性评价",
+    "形成性评价在学习过程中收集证据并反馈，以改进教学和学习。",
+    "教育部普通高中课程标准通知",
+    "https://www.moe.gov.cn/srcsite/A26/s8001/202006/t20200603_462199.html"
+  ],
+  [
+    "项目式学习",
+    "项目式学习围绕真实任务组织探究、制作、展示与反思。",
+    "教育部普通高中课程标准通知",
+    "https://www.moe.gov.cn/srcsite/A26/s8001/202006/t20200603_462199.html"
+  ]
 ];
 const concept = concepts[((dayNumber % concepts.length) + concepts.length) % concepts.length];
 document.querySelector('#dailyTitle').textContent = QUIZ_DATE + ' · 每日练习';
