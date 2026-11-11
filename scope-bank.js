@@ -138,11 +138,10 @@ function scopeChoiceSelection(day) {
   const pools=[
     indexed.filter(([row])=>row[6]==='教育公共知识'),
     indexed.filter(([row])=>row[6]==='课程与教学论'),
-    indexed.filter(([row])=>!String(row[4]||'').includes('参数') && (!row[6]||row[6]==='学科专业知识')),
-    indexed.filter(([row])=>String(row[4]||'').includes('参数'))
+    indexed.filter(([row])=>!String(row[4]||'').includes('参数') && (!row[6]||row[6]==='学科专业知识'))
   ];
   if(pools.some(pool=>!pool.length))return cycle(choices,20,day*20);
-  return pools.flatMap((pool,k)=>cycle(pool,[4,4,10,2][k],day*[4,4,10,2][k]).map(([entry])=>entry));
+  return pools.flatMap((pool,k)=>cycle(pool,[4,4,12][k],day*[4,4,12][k]).map(([entry])=>entry));
 }
 function scopeFillSelection(day) {
   const indexed=fills.map((row,index)=>[row,index]);
@@ -158,3 +157,6 @@ function scopeEssaySelection(day) {
   if(!applied.length || !other.length)return cycle(essays,3,day*3);
   return [...cycle(applied,1,day),...cycle(other,2,day*2)].map(([entry])=>entry);
 }
+
+
+
