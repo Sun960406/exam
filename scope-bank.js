@@ -133,6 +133,16 @@ const SCOPE_ESSAYS=[
 ];
 SCOPE_ESSAYS.forEach(row=>essays.push([row[0],row[1],'原创·'+row[2],row[2]]));
 
+function spreadChoicePool(items, seed) {
+  const result=[...items];
+  let value=seed;
+  for(let i=result.length-1;i>0;i--){
+    value=(Math.imul(value,1664525)+1013904223)>>>0;
+    const j=value%(i+1);
+    [result[i],result[j]]=[result[j],result[i]];
+  }
+  return result;
+}
 function scopeChoiceSelection(day) {
   const indexed=choices.map((row,index)=>[row,index]);
   const pools=[
@@ -141,7 +151,8 @@ function scopeChoiceSelection(day) {
     indexed.filter(([row])=>!String(row[4]||'').includes('参数') && (!row[6]||row[6]==='学科专业知识'))
   ];
   if(pools.some(pool=>!pool.length))return cycle(choices,20,day*20);
-  return pools.flatMap((pool,k)=>cycle(pool,[4,4,12][k],day*[4,4,12][k]).map(([entry])=>entry));
+  const spread=pools.map((pool,k)=>spreadChoicePool(pool,20261108+k*7919));
+  return spread.flatMap((pool,k)=>cycle(pool,[3,3,14][k],day*[3,3,14][k]).map(([entry])=>entry));
 }
 function scopeFillSelection(day) {
   const indexed=fills.map((row,index)=>[row,index]);
@@ -157,6 +168,9 @@ function scopeEssaySelection(day) {
   if(!applied.length || !other.length)return cycle(essays,3,day*3);
   return [...cycle(applied,1,day),...cycle(other,2,day*2)].map(([entry])=>entry);
 }
+
+
+
 
 
 
