@@ -143,23 +143,41 @@ function spreadChoicePool(items, seed) {
   }
   return result;
 }
+// 同一题干只改数字的参数题归为一组，每轮只取一个实例。
+function questionFamily(row) {
+  return String(row[0]).replace(/[0-9]+/g,'#').replace(/\s+/g,'').replace(/[，。？?：:；;（）()]/g,'');
+}
+function distinctFamilies(items, day) {
+  const families=new Map();
+  for(const item of items){
+    const key=questionFamily(item[0]);
+    if(!families.has(key))families.set(key,[]);
+    families.get(key).push(item);
+  }
+  return [...families.values()].map((group,k)=>group[((Math.floor(day/14)+k)%group.length+group.length)%group.length]);
+}
 function scopeChoiceSelection(day) {
   const indexed=choices.map((row,index)=>[row,index]);
+  const professional=indexed.filter(([row])=>!row[6]||row[6]==='学科专业知识');
+  const core=professional.filter(([row])=>!String(row[4]||'').includes('参数'));
+  const variants=professional.filter(([row])=>String(row[4]||'').includes('参数'));
   const pools=[
     indexed.filter(([row])=>row[6]==='教育公共知识'),
     indexed.filter(([row])=>row[6]==='课程与教学论'),
-    indexed.filter(([row])=>!String(row[4]||'').includes('参数') && (!row[6]||row[6]==='学科专业知识'))
+    [...core,...distinctFamilies(variants,day)]
   ];
   if(pools.some(pool=>!pool.length))return cycle(choices,20,day*20);
+  const counts=[2,2,16];
   const spread=pools.map((pool,k)=>spreadChoicePool(pool,20261108+k*7919));
-  return spread.flatMap((pool,k)=>cycle(pool,[3,3,14][k],day*[3,3,14][k]).map(([entry])=>entry));
+  return spread.flatMap((pool,k)=>cycle(pool,counts[k],day*counts[k]).map(([entry])=>entry));
 }
 function scopeFillSelection(day) {
   const indexed=fills.map((row,index)=>[row,index]);
   const core=indexed.filter(([row])=>!String(row[3]||'').includes('参数'));
   const variants=indexed.filter(([row])=>String(row[3]||'').includes('参数'));
   if(core.length<4||!variants.length)return cycle(fills,5,day*5);
-  return [...cycle(core,4,day*4),...cycle(variants,1,day)].map(([entry])=>entry);
+  const pool=spreadChoicePool([...core,...distinctFamilies(variants,day)],20261109);
+  return cycle(pool,5,day*5).map(([entry])=>entry);
 }
 function scopeEssaySelection(day) {
   const indexed=essays.map((row,index)=>[row,index]);
