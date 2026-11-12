@@ -173,8 +173,8 @@ function scopeChoiceSelection(day) {
   const result=[];
   for(let i=0;i<14;i++){
     result.push(selected[2][i]);
-    if(i<3)result.push(selected[0][i]);
-    if(i<3)result.push(selected[1][i]);
+    if(i===1 || i===6 || i===11)result.push(selected[0][[1,6,11].indexOf(i)]);
+    if(i===3 || i===8 || i===13)result.push(selected[1][[3,8,13].indexOf(i)]);
   }
   return result;
 }
