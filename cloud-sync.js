@@ -234,11 +234,9 @@
     finally{button.disabled=false;}
   });
   logout.onclick=async()=>{
-    try{
-      await flush();
-      await signedRequest('/auth/v1/logout?scope=local',{method:'POST'});
-      clearSession();setStatus('已退出云同步；本机作答保留。');
-    }catch(error){showError(error);}
+    clearTimeout(flushTimer);
+    clearSession();
+    setStatus('已在本设备退出云同步；本机作答保留。');
   };
   window.practiceSync={onLocalSave,pull:()=>pull().catch(showError),getAccessToken:async()=>{await ensureSession();return session.access_token;}};
   if(!configured){form.hidden=true;logout.hidden=true;setStatus('云同步待配置。请先按随附说明创建 Supabase 项目。');return;}
