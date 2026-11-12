@@ -167,9 +167,16 @@ function scopeChoiceSelection(day) {
     [...core,...distinctFamilies(variants,day)]
   ];
   if(pools.some(pool=>!pool.length))return cycle(choices,20,day*20);
-  const counts=[2,2,16];
-  const spread=pools.map((pool,k)=>spreadChoicePool(pool,20261108+k*7919));
-  return spread.flatMap((pool,k)=>cycle(pool,counts[k],day*counts[k]).map(([entry])=>entry));
+  const counts=[3,3,14];
+  const spread=pools.map((pool,k)=>spreadChoicePool(pool,20261112+k*7919));
+  const selected=spread.map((pool,k)=>cycle(pool,counts[k],day*counts[k]).map(([entry])=>entry));
+  const result=[];
+  for(let i=0;i<14;i++){
+    result.push(selected[2][i]);
+    if(i<3)result.push(selected[0][i]);
+    if(i<3)result.push(selected[1][i]);
+  }
+  return result;
 }
 function scopeFillSelection(day) {
   const indexed=fills.map((row,index)=>[row,index]);
@@ -183,10 +190,9 @@ function scopeEssaySelection(day) {
   const indexed=essays.map((row,index)=>[row,index]);
   const applied=indexed.filter(([row])=>['教学设计','案例分析'].includes(row[3]));
   const other=indexed.filter(([row])=>!['教学设计','案例分析'].includes(row[3]));
-  if(!applied.length || !other.length)return cycle(essays,3,day*3);
-  return [...cycle(applied,1,day),...cycle(other,2,day*2)].map(([entry])=>entry);
+  if(!applied.length || !other.length)return cycle(essays,2,day*2);
+  return [...cycle(applied,1,day),...cycle(other,1,day)].map(([entry])=>entry);
 }
-
 
 
 
