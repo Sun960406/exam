@@ -11,9 +11,10 @@
   const base=String(config.url || '').replace(/\/+$/,'');
   const key=String(config.publishableKey || '');
   const configured=/^https:\/\/[^/?#]+$/.test(base) && key.length>15;
-  let session=null,ready=false,syncingRemote=false,cursor=null,shadow=new Map(),pending=new Map(),flushTimer=null,flushPromise=null,pullPromise=null;
+  let session=null,ready=false,syncingRemote=false,cursor=null,shadow=new Map(),pending=new Map(),flushTimer=null,flushPromise=null,pullPromise=null,recoveryMode=false;
   const status=panel.querySelector('#cloudStatus');
   const form=panel.querySelector('#cloudForm');
+  const recoveryForm=panel.querySelector('#cloudRecoveryForm');
   const logout=panel.querySelector('#cloudLogout');
   const setStatus=(message,kind='')=>{status.textContent=message;status.dataset.state=kind;};
   const rowKey=(category,itemKey)=>category+'\u0000'+itemKey;
@@ -198,11 +199,40 @@
       passwordInput.value='';
       if(!storeSession(data)){setStatus('注册请求已提交。若需要邮箱验证，请检查收件箱和垃圾邮件；已有账号可直接登录。','ok');return;}
       await start();
-    }catch(error){showError(error);}
+    }catch(error){
+      if(mode==='login' && /invalid.login.credentials|invalid_credentials/i.test(error.message))
+        setStatus('登录未成功：请核对在答题网站注册的邮箱和密码，并确认已完成邮箱验证；忘记密码可点击下方找回。本机作答仍已保存。','error');
+      else showError(error);
+    }
     finally{form.querySelectorAll('button').forEach(button=>button.disabled=false);}
   }
   form.addEventListener('submit',event=>{event.preventDefault();authenticate('login');});
   panel.querySelector('#cloudSignup').onclick=()=>authenticate('signup');
+  panel.querySelector('#cloudRecover').onclick=async()=>{
+    const emailInput=form.elements.namedItem('email');
+    if(!emailInput.reportValidity())return;
+    setStatus('正在发送重置邮件…','working');
+    try{
+      await request('/auth/v1/recover?redirect_to='+encodeURIComponent(location.origin+location.pathname),
+        {method:'POST',body:{email:emailInput.value.trim()}});
+      setStatus('如果该邮箱已在答题网站注册，请查收密码重置邮件及垃圾邮件。','ok');
+    }catch(error){showError(error);}
+  };
+  recoveryForm.addEventListener('submit',async event=>{
+    event.preventDefault();
+    if(!session || !recoveryMode)return;
+    const button=recoveryForm.querySelector('button');
+    button.disabled=true;
+    setStatus('正在保存新密码…','working');
+    try{
+      const password=recoveryForm.elements.namedItem('newPassword').value;
+      await signedRequest('/auth/v1/user',{method:'PUT',body:{password}});
+      recoveryForm.reset();recoveryForm.hidden=true;recoveryMode=false;
+      setStatus('密码已更新，正在同步作答…','ok');
+      await start();
+    }catch(error){showError(error);}
+    finally{button.disabled=false;}
+  });
   logout.onclick=async()=>{
     try{
       await flush();
@@ -215,16 +245,17 @@
   try{session=JSON.parse(localStorage.getItem(sessionKey)||'null');}catch{session=null;}
   const fragment=new URLSearchParams(location.hash.slice(1));
   if(fragment.has('access_token') && fragment.has('refresh_token')){
+    recoveryMode=fragment.get('type')==='recovery';
     storeSession({access_token:fragment.get('access_token'),refresh_token:fragment.get('refresh_token'),
       expires_in:Number(fragment.get('expires_in')||3600)});
     history.replaceState(null,'',location.pathname+location.search);
   }
   showAccount();
-  if(session)start();
+  if(recoveryMode){recoveryForm.hidden=false;logout.hidden=true;setStatus('邮件验证成功，请设置新密码。','working');}
+  else if(session)start();
   else setStatus('登录同一账号后，手机和电脑会自动同步作答与错题。');
-  const resume=()=>{if(!session)return;if(ready)pull().catch(showError);else start();};
+  const resume=()=>{if(!session || recoveryMode)return;if(ready)pull().catch(showError);else start();};
   setInterval(()=>{if(session && navigator.onLine)resume();},20000);
   addEventListener('focus',resume);
   addEventListener('online',resume);
 })();
-
