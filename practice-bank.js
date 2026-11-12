@@ -107,7 +107,7 @@ function extraChoice(kind, n) {
     case 21: value=n; stem=`IPv4 地址 192.168.${n}.37/24 的子网广播地址是？`; format=x=>`192.168.${x}.255`; explain='前 24 位不变，主机部分全部置为 1。'; break;
     case 22: value=a; stem=`一个带时钟的传感器在闭区间 [0,${a-1}] 秒内，每秒整点采样一次，共采样多少次？`; explain='0 秒和最后一个整秒都采样，端点均包括。'; break;
     case 23: value=a*b; stem=`一个传感器每秒采集 ${b} 次，每次 2 字节，连续 ${a} 秒，无其他数据，记录量是多少个 16 位样本？`; explain='样本数只取决于采样率和时长。'; break;
-    case 24: value=a; stem=`分类器测试集中有 ${2*a} 个样本，预测正确 ${a} 个，准确率为多少？`; format=x=>String(x/(2*a)); explain='准确率等于预测正确数除以样本总数，本题为 0.5。'; break;
+    case 24: value=a; stem=`分类器测试集中有 ${2*a} 个样本，预测正确 ${a} 个，准确率为多少？`; format=x=>`${(100*x/(2*a)).toFixed(1)}%`; explain=`准确率 = ${a} ÷ ${2*a} × 100% = 50.0%。`; break;
     case 25: value=a*2; stem=`某评价量表有 ${a} 个维度，每维满分 2 分，总分满分是多少？`; explain='各维度满分之和。'; break;
     case 26: value=Math.ceil(a/b); stem=`在每组最多 ${b} 人且没有其他约束时，把 ${a} 名学生分组，至少需要多少组？`; explain='人数除以每组容量后向上取整。'; break;
     case 27: value=a-b; stem=`对 ${a} 个样本的数据集，取出 ${b} 个作为测试集，其余全部为训练集，训练集有多少个样本？（本题 ${a} 大于等于 ${b}）`; explain='总样本数减去测试集样本数。'; if(a<b) return extraChoice(kind,n+7); break;
