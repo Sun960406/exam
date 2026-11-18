@@ -9,16 +9,16 @@ function sourceChoice(kind,n){
     case 1:q=`十进制数 ${a} 转换为二进制是多少？`;v=a.toString(2);e=`${a}₁₀=${v}₂。`;page='讲义目录：数制与编码';break;
     case 2:q=`十进制数 ${a} 转换为十六进制是多少？`;v=a.toString(16).toUpperCase();e=`按 16 进制位权换算为 ${v}。`;page='题本 p.2';break;
     case 3:q=`${b} KiB 等于多少字节？`;v=b*1024;e='1 KiB=1024 字节。';page='讲义目录：计算机基础';break;
-    case 4:q=`宽 ${b} 像素、高 10 像素、每像素 24 位的未压缩图像占多少字节？`;v=b*30;e='宽×高×位深÷8，不计文件头。';page='讲义目录：多媒体技术';break;
+    case 4:q=`宽 ${b} 像素、高 10 像素、每像素 24 位的图像，若只存储紧密排列的原始像素数据，不计行填充和文件头，共多少字节？`;v=b*30;e='原始像素数据按宽×高×位深÷8 计算；题设排除了行填充和文件头。';page='讲义目录：多媒体技术';break;
     case 5:q=`单声道音频每秒采样 ${b} 次、每次 16 位，持续 2 秒，未压缩数据占多少字节？`;v=b*4;e='采样率×位深×时长÷8。';page='讲义目录：多媒体技术';break;
     case 6:q=`IPv4 子网 192.168.${n}.0/${prefix} 按传统规则排除网络和广播地址，可用主机地址数是多少？`;v=hosts;e=`主机位 ${32-prefix} 位，可用数为 2^${32-prefix}-2。`;page='讲义目录：计算机网络';break;
     case 7:q=`传感器在 0 到 ${b*5} 秒（含两端）每隔 5 秒采样一次，共采样几次？`;v=b+1;e='0 秒也采样，所以采样次数为时长÷间隔+1。';page='讲义目录：物联网';break;
-    case 8:q=`MQTT 代理收到“温度”主题的 ${b} 条消息，恰有 2 个客户端持续订阅该主题且均在线，向订阅者转发共多少条？`;v=2*b;e='每条消息分别转发给两个订阅者；题设不考虑重传。';page='讲义 p.42';break;
+    case 8:q=`MQTT 代理收到“温度”主题的 ${b} 条消息，恰有 2 个客户端持续订阅且均在线；每条消息只向每位订阅者转发一次，不考虑重传，共转发多少条？`;v=2*b;e='每条消息分别转发给两个订阅者，共为消息数的 2 倍。';page='讲义 p.42';break;
     case 9:q=`表 SC 有 ${b+12} 行，GRADE 为 NULL 的有 ${n%3+1} 行，COUNT(GRADE) 得多少？`;v=b+12-(n%3+1);e='COUNT(列) 不统计该列的 NULL。';page='讲义 p.112';break;
     case 10:q=`表 SC 有 ${b+12} 行，其中有 ${n%3+1} 行成绩为 NULL，COUNT(*) 得多少？`;v=b+12;e='COUNT(*) 统计所有行。';page='讲义 p.112';break;
     case 11:q=`变量 s 初始为 ${n}，循环 ${b} 次，每次执行 s += 2，最终 s 是多少？`;v=n+2*b;e='初值加上每次增加量与次数的乘积。';page='讲义目录：Python 程序设计';break;
     case 12:q=`长度为 ${b} 的有序数组进行二分查找，首次计算中点下标 (0+${b-1})//2，结果是多少？`;v=Math.floor((b-1)/2);e='使用整数除法计算下标中点。';page='讲义 p.186';break;
-    case 13:q=`长度为 ${b} 的序列做一趟相邻元素比较，共比较多少次？`;v=b-1;e='相邻元素共有 n-1 对。';page='讲义目录：排序算法';break;
+    case 13:q=`长度为 ${b} 的序列，从头到尾把每对相邻元素各比较一次，共比较多少次？`;v=b-1;e='长度为 n 的序列共有 n-1 对相邻元素。';page='讲义目录：排序算法';break;
     case 14:q=`外层和内层循环都执行 ${b} 次，内层语句共执行多少次？`;v=b*b;e='两层次数相乘。';page='讲义目录：算法';break;
     case 15:q=`非负整数 ${b} 在 Python 中左移 2 位，结果是多少？`;v=b*4;e='左移两位相当于乘 4。';page='讲义目录：编码';break;
     case 16:q=`${b} 个指定为 UTF-8 各占 3 字节的汉字，不计 BOM，共占多少字节？`;v=b*3;e='题设每字 3 字节，故相乘。';page='讲义目录：字符编码';break;
@@ -107,4 +107,3 @@ for(let i=0;i<51;i++)programs[i]=revisedPrograms[i];
 if(choices.length!==oldCounts.choices || fills.length!==oldCounts.fills || programs.length!==oldCounts.programs || essays.length!==200)throw Error('题库修订后数量异常');
 globalThis.REVISION_STATS={choicesReplaced:1100,fillsReplaced:550,programsReplaced:51,essaysAdded:170,essayTotal:essays.length,choiceTemplates:20,fillTemplates:20,essayTopics:TOPICS.length,programTemplates:17};
 })();
-
