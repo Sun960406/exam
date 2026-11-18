@@ -24,7 +24,7 @@ function sourceChoice(kind,n){
     case 16:q=`${b} 个指定为 UTF-8 各占 3 字节的汉字，不计 BOM，共占多少字节？`;v=b*3;e='题设每字 3 字节，故相乘。';page='讲义目录：字符编码';break;
     case 17:q=`SQL 中 A 表 ${b} 行、B 表 3 行，CROSS JOIN 后有多少行？`;v=b*3;e='笛卡尔积的行数为两表行数之积。';page='讲义目录：SQL 语言';break;
     case 18:q=`Scratch 变量 a 初始为 ${n}，重复 ${b} 次“将 a 增加 3”，最终值是多少？`;v=n+3*b;e='初值加上重复次数乘 3。';page='讲义 p.220';break;
-    case 19:q=`一张表有 ${b} 行，WHERE 条件恰好排除 2 行，查询返回多少行？`;v=b-2;e='WHERE 先筛选满足条件的行。';page='讲义目录：SQL 语言';break;
+    case 19:q=`表 t 恰有 ${b} 行，执行 SELECT * FROM t WHERE 条件；若该条件恰好排除 2 行，且不使用去重、分组或 LIMIT，结果返回多少行？`;v=b-2;e=`SELECT * 保留满足 WHERE 条件的每一行，${b}−2=${v} 行。`;page='讲义目录：SQL 语言';break;
   }
   const answer=String(v);
   const options=[answer];
