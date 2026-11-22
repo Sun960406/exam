@@ -190,8 +190,8 @@ function scopeEssaySelection(day) {
   const indexed=essays.map((row,index)=>[row,index]);
   const applied=indexed.filter(([row])=>['教学设计','案例分析'].includes(row[3]));
   const other=indexed.filter(([row])=>!['教学设计','案例分析'].includes(row[3]));
-  if(!applied.length || !other.length)return cycle(essays,2,day*2);
-  return [...cycle(applied,1,day),...cycle(other,1,day)].map(([entry])=>entry);
+  if(!applied.length || !other.length)return cycle(essays,1,day);
+  return cycle(day % 2 ? other : applied,1,day).map(([entry])=>entry);
 }
 
 
